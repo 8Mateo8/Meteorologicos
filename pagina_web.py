@@ -4,7 +4,7 @@ import plotly.express as px
 
 # Leer el CSV, saltando las 13 filas iniciales
 datos = pd.read_csv(
-    "C:\\Users\\SISTEMAS\\Desktop\\Proyecto Analisis de datos\\POWER_Point_Daily_20200101_20250531_002d92S_079d00W_LST.csv", 
+    "POWER_Point_Daily_20200101_20250531_002d92S_079d00W_LST.csv", 
     skiprows=13
 )
 
