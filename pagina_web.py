@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import os
-
-st.write("Archivos en el directorio actual:", os.listdir())
 
 # Leer el CSV, saltando las 13 filas iniciales
 datos = pd.read_csv(
