@@ -25,7 +25,7 @@ def fechas(etiqueta=""):
 
 selected = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 'Anomalías climáticas'], 
     icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'exclamation-triangle'], menu_icon="house-door-fill", default_index=0, orientation="horizontal")
-selected
+# selected
 
 # Título de la página web
 st.title('Datos Metereológicos en Cuenca - Ecuador')
