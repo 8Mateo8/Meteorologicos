@@ -1,49 +1,25 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import data
 
-# Leer el CSV, saltando las 13 filas iniciales
-datos = pd.read_csv(
-    "POWER_Point_Daily_20200101_20250531_002d92S_079d00W_LST.csv", 
-    skiprows=13
-)
+# Leer el CSV
+datos = data.importar_datos()
 
-# Renombrar columnas para facilitar su uso
-datos = datos.rename(columns={
-    'DATE': 'Fecha del registro', 
-    'T2M': 'Temperatura (°C)', 
-    'RH2M': 'Humedad relativa (%)', 
-    'PRECTOTCORR': 'Precipitación (mm)', 
-    'WS2M': 'Viento (m/s)',
-    'ALLSKY_SFC_SW_DWN': 'Radiación solar (kWh/m²/día)'
-})
-datos['Fecha del registro'] = pd.to_datetime(datos['Fecha del registro'])
-datos = datos.replace(-999, pd.NA)
-
-def fechas(prefix=""):
+def fechas(etiqueta=""):
     fecha_min = st.date_input('Seleccione una fecha de inicio', 
                               value=pd.to_datetime('2020-01-01'), 
                               min_value=datos['Fecha del registro'].min(), 
                               max_value=datos['Fecha del registro'].max(),
-                              key=f"{prefix}_fecha_inicio")
-    
-    fecha_max = st.date_input('Seleccione una fecha de fin', 
-                              value=pd.to_datetime('2025-05-31'), 
-                              min_value=datos['Fecha del registro'].min(), 
+                              key=f"{etiqueta}_fecha_inicio")
+
+    fecha_max = st.date_input('Seleccione una fecha de fin',
+                              value=pd.to_datetime('2025-05-31'),
+                              min_value=datos['Fecha del registro'].min(),
                               max_value=datos['Fecha del registro'].max(),
-                              key=f"{prefix}_fecha_fin")
-    
+                              key=f"{etiqueta}_fecha_fin")
+
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
-
-# Convertir columnas a tipo numérico donde sea posible
-for col in datos.columns:
-    if col != 'Fecha del registro':
-        datos[col] = pd.to_numeric(datos[col], errors='coerce')
-
-# Imputar con promedio semanal
-datos.set_index('Fecha del registro', inplace=True)
-datos = datos.groupby(datos.index.to_period('W')).transform(lambda x: x.fillna(x.mean()))
-datos = datos.reset_index()
 
 st.title('Datos Metereológicos en Cuenca - Ecuador')
 
