@@ -2,10 +2,12 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import data
+from streamlit_option_menu import option_menu
 
 # Leer el CSV
 datos = data.importar_datos()
 
+# Función para seleccionar las fechas límite de los gráficos
 def fechas(etiqueta=""):
     fecha_min = st.date_input('Seleccione una fecha de inicio', 
                               value=pd.to_datetime('2020-01-01'), 
@@ -21,13 +23,21 @@ def fechas(etiqueta=""):
 
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
 
+with st.sidebar:
+    selected = option_menu("Main Menu", ["Home", 'Settings'], 
+        icons=['house', 'gear'], menu_icon="cast", default_index=1)
+    selected
+
+# Título de la página web
 st.title('Datos Metereológicos en Cuenca - Ecuador')
 
+# Descripción de la página
 st.write('A continuación se presentan los datos meteorológicos de la ciudad de Cuenca, obtenidos de' \
 ' una base de datos del proyecto POWER (Prediction Of Worldwide Energy Resources) de la NASA. ' \
 'Este dataset contiene información meteorológica histórica y actualizada, recopilada mediante sensores satelitales.')
 st.write('Los datos están disponibles desde el 1 de enero del 2020 hasta el 31 de mayo del 2025.')
 
+# Visualización de los datos
 st.header('Visualización de tendencias climáticas a lo largo del tiempo.')
 variable = st.selectbox('',['Seleccione la variable a visualizar', 'Temperatura promedio diaria del aire a 2 metros (°C)', 
                                   'Humedad relativa promedio diaria a 2 metros (%)', 
