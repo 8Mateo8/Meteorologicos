@@ -24,8 +24,8 @@ def fechas(etiqueta=""):
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
 
 with st.sidebar:
-    selected = option_menu("Main Menu", ["Home", 'Settings'], 
-        icons=['house', 'gear'], menu_icon="cast", default_index=1)
+    selected = option_menu("Main Menu", ["Inicio", 'Tendencias climáticas'], 
+        icons=['brightness-alt-high', 'thermometer-sun'], menu_icon="cast", default_index=1)
     selected
 
 # Título de la página web
