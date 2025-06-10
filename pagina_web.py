@@ -32,7 +32,7 @@ if menu_opcion == 'Inicio':
     st.title('Datos Metereológicos en Cuenca - Ecuador')
 
     # Descripción de la página
-    st.markdown('<div style="text-align: justify;">En esta página web se presentan los datos meteorológicos de la ciudad de Cuenca. Los cuales han sido obtenidos de una base de datos del proyecto POWER (Prediction Of Worldwide Energy Resources) de la NASA. Este dataset contiene información meteorológica histórica y actualizada, recopilada mediante sensores satelitales.</div>', unsafe_allow_html=True)
+    st.markdown('<div style="text-align: justify;">En esta página web se presentan los datos meteorológicos de la ciudad de Cuenca, obtenidos a partir de la base de datos del proyecto POWER (Prediction Of Worldwide Energy Resources) de la NASA. Este conjunto de datos incluye información meteorológica histórica y actualizada, recopilada mediante sensores satelitales.</div>', unsafe_allow_html=True)
     st.write('Los datos están disponibles desde el 1 de enero del 2020 hasta el 31 de mayo del 2025.')
 
     # Visualización de los datos
