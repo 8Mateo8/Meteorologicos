@@ -23,26 +23,27 @@ def fechas(etiqueta=""):
 
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
 
-selected = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 'Anomalías climáticas'], 
-    icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'exclamation-triangle'], menu_icon="house-door-fill", default_index=0, orientation="horizontal")
-# selected
+menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 'Anomalías climáticas'], 
+    icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'exclamation-triangle'], 
+    menu_icon="house-door-fill", default_index=0, orientation="horizontal")
 
-# Título de la página web
-st.title('Datos Metereológicos en Cuenca - Ecuador')
+if menu_opcion == 'Inicio':
+    # Título de la página web
+    st.title('Datos Metereológicos en Cuenca - Ecuador')
 
-# Descripción de la página
-st.write('A continuación se presentan los datos meteorológicos de la ciudad de Cuenca, obtenidos de' \
-' una base de datos del proyecto POWER (Prediction Of Worldwide Energy Resources) de la NASA. ' \
-'Este dataset contiene información meteorológica histórica y actualizada, recopilada mediante sensores satelitales.')
-st.write('Los datos están disponibles desde el 1 de enero del 2020 hasta el 31 de mayo del 2025.')
+    # Descripción de la página
+    st.write('A continuación se presentan los datos meteorológicos de la ciudad de Cuenca, obtenidos de' \
+    ' una base de datos del proyecto POWER (Prediction Of Worldwide Energy Resources) de la NASA. ' \
+    'Este dataset contiene información meteorológica histórica y actualizada, recopilada mediante sensores satelitales.')
+    st.write('Los datos están disponibles desde el 1 de enero del 2020 hasta el 31 de mayo del 2025.')
 
-# Visualización de los datos
-st.header('Visualización de tendencias climáticas a lo largo del tiempo.')
-variable = st.selectbox('',['Seleccione la variable a visualizar', 'Temperatura promedio diaria del aire a 2 metros (°C)', 
-                                  'Humedad relativa promedio diaria a 2 metros (%)', 
-                                  'Velocidad del viento a 2 metros (m/s)',
-                                  'Precipitación total corregida (mm/día)', 
-                                  'Radiación solar total en la superficie (kWh/m²/día)'])
+    # Visualización de los datos
+    st.header('Visualización de tendencias climáticas a lo largo del tiempo.')
+    variable = st.selectbox('',['Seleccione la variable a visualizar', 'Temperatura promedio diaria del aire a 2 metros (°C)', 
+                                    'Humedad relativa promedio diaria a 2 metros (%)', 
+                                    'Velocidad del viento a 2 metros (m/s)',
+                                    'Precipitación total corregida (mm/día)', 
+                                    'Radiación solar total en la superficie (kWh/m²/día)'])
 
 if variable == 'Temperatura promedio diaria del aire a 2 metros (°C)':
     pass
