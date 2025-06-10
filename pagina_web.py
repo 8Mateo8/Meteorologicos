@@ -23,10 +23,9 @@ def fechas(etiqueta=""):
 
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
 
-with st.sidebar:
-    selected = option_menu("Menú", ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 'Anomalías climáticas'], 
-        icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'exclamation-triangle'], menu_icon="house-door-fill", default_index=1)
-    selected
+selected = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 'Anomalías climáticas'], 
+    icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'exclamation-triangle'], menu_icon="house-door-fill", default_index=0, orientation="horizontal")
+selected
 
 # Título de la página web
 st.title('Datos Metereológicos en Cuenca - Ecuador')
