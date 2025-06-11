@@ -185,8 +185,8 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 df_promedios,
                 x='Año',
                 y='Promedio',
-                title='Promedio Anual de {opcion}',
-                labels={'Año': 'Año', 'Promedio': f'Promedio anual'},
+                title=f'Promedio Anual de {opcion}',
+                labels={'Año': 'Año', 'Promedio': 'Promedio anual'},
                 color='Año'
             )
             fig.update_traces(showlegend=False)
