@@ -150,23 +150,24 @@ elif menu_opcion == 'Comparación de rangos temporales':
             if mes1 != None and mes2 != None and Año1 != None and Año2 != None and opcion != 'Seleccione la variable a visualizar' and not(mes1 != mes2 and Año1 == Año2):
                 datos_filtrados1 = datos[(datos['Fecha del registro'].dt.year == Año1) & (datos['Fecha del registro'].dt.month ==arr_m.index(mes1) + 1)]
                 datos_filtrados2 = datos[(datos['Fecha del registro'].dt.year == Año2) & (datos['Fecha del registro'].dt.month ==arr_m.index(mes2) + 1)]
-                # Map user-friendly variable names to DataFrame column names
-                variable_map = {
+                apoyo = {
                     'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
                     'Humedad relativa promedio a 2 metros (%)': 'Humedad relativa (%)',
                     'Velocidad del viento a 2 metros (m/s)': 'Viento (m/s)',
                     'Precipitación total corregida (mm/día)': 'Precipitación (mm)',
                     'Radiación solar total en la superficie (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'
                 }
-                columna = variable_map.get(opcion)
+                columna = apoyo.get(opcion)
                 promedio1 = datos_filtrados1[columna].mean()
                 promedio2 = datos_filtrados2[columna].mean() 
                 fig = px.bar(
                     x=[f"{mes1} {Año1}", f"{mes2} {Año2}"],
                     y=[promedio1, promedio2],
-                    title=f'Promedio Mensual de {opcion} para {mes1} de {Año1} y {mes2} de {Año2}',
-                    labels={'x': 'Mes y Año', 'y': f'Promedio'}
+                    title=f'Comparación {mes1} de {Año1} y {mes2} de {Año2}',
+                    labels={'x': 'Mes y Año', 'y': f'Promedio'},
+                    color=[f"{mes1} {Año1}", f"{mes2} {Año2}"]
                 )
+                fig.update_traces(showlegend=False)
                 st.plotly_chart(fig)
             else:
                 st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
