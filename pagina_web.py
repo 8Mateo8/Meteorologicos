@@ -117,3 +117,22 @@ elif menu_opcion == 'Comparación de rangos temporales':
         # st.write(promedios_anuales)
         fig = px.bar(promedios_anuales, x='Año', y='Temperatura (°C)', title='Promedio Anual de Temperatura')
         st.plotly_chart(fig)
+elif menu_opcion == 'Anomalías climáticas':
+    st.header('Identificación de anomalías climáticas ')
+    variable_anomalia = st.selectbox('Seleccione la variable para analizar anomalías:', 
+                                      ['Seleccione una variable', 'Temperatura promedio diaria del aire a 2 metros (°C)', 
+                                       'Humedad relativa promedio diaria a 2 metros (%)', 
+                                       'Velocidad del viento a 2 metros (m/s)',
+                                       'Precipitación total corregida (mm/día)', 
+                                       'Radiación solar total en la superficie (kWh/m²/día)'])
+
+    if variable_anomalia == 'Temperatura promedio diaria del aire a 2 metros (°C)':
+        pass
+    elif variable_anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
+        pass
+    elif variable_anomalia == 'Velocidad del viento a 2 metros (m/s)':
+        pass
+    elif variable_anomalia == 'Precipitación total corregida (mm/día)':
+        pass
+    elif variable_anomalia == 'Radiación solar total en la superficie (kWh/m²/día)':
+        pass
