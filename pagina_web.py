@@ -241,6 +241,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
             grupos = [datos[(datos['Fecha del registro'].dt.year == Año) & 
                                     (datos['Fecha del registro'].dt.month == mes)][columna].dropna()
                               for mes in meses_seleccionados]
+            st.write(grupos)
             if mostrar and len(grupos) > 1:
                 if normal:
                     st.write('Los datos siguen una distribución normal.')
@@ -337,6 +338,7 @@ elif menu_opcion == 'Anomalías climáticas':
         pass
     elif anomalia == 'Radiación solar total en la superficie (kWh/m²/día)':
         pass
+
 elif menu_opcion == 'Preguntas de investigación':
     st.header('Preguntas de investigación')
     st.markdown('''
