@@ -29,7 +29,7 @@ def fechas(etiqueta=""):
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
 
 def variables_clima():
-    seleccion = st.selectbox('',['Seleccione la variable a visualizar', 'Temperatura promedio del aire a 2 metros (°C)', 
+    seleccion = st.selectbox('Seleccione la variable a visualizar:', ['Temperatura promedio del aire a 2 metros (°C)', 
                                     'Humedad relativa promedio a 2 metros (%)', 
                                     'Velocidad del viento a 2 metros (m/s)',
                                     'Precipitación total corregida (mm/día)', 
@@ -138,79 +138,55 @@ elif menu_opcion == 'Comparación de rangos temporales':
     opcion = variables_clima()
 
     if rangos == 'Mensual':
-        metodo = st.segmented_control(None, ['De un año', 'De varios años'])
-        if metodo == 'De varios años':
-            Año1 = st.segmented_control('Seleccione el año 1:', datos['Fecha del registro'].dt.year.unique(), key='año1')
-            if Año1 == 2025:
-                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
-            else:
-                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-            mes1 = st.segmented_control('Seleccione el mes 1:', arr_m, selection_mode='single', key='mes1')
-            Año2 = st.segmented_control('Seleccione el año 2:', datos['Fecha del registro'].dt.year.unique(), key='año2')
-            if Año2 == 2025:
-                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
-            else:
-                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-            mes2 = st.segmented_control('Seleccione el mes 2:', arr_m, selection_mode='single', key='mes2')
-
-            if mes1 != None and mes2 != None and Año1 != None and Año2 != None and opcion != 'Seleccione la variable a visualizar' and not(mes1 != mes2 and Año1 == Año2):
-                datos_filtrados1 = datos[(datos['Fecha del registro'].dt.year == Año1) & (datos['Fecha del registro'].dt.month ==arr_m.index(mes1) + 1)]
-                datos_filtrados2 = datos[(datos['Fecha del registro'].dt.year == Año2) & (datos['Fecha del registro'].dt.month ==arr_m.index(mes2) + 1)]
+        Año = st.segmented_control('Seleccione el año:', datos['Fecha del registro'].dt.year.unique(), key='año')
+        if Año == 2025:
+            arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
+        else:
+            arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        meses = st.segmented_control('Seleccione el/los mes/es:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+                                                        selection_mode='multi', key='meses')
+        if Año != None and meses != None and opcion != None:
+            promedios = []
+            meses_seleccionados = [arr_m.index(mes) + 1 for mes in meses]
+            for mes in meses_seleccionados:
+                datos_filtrados = datos[(datos['Fecha del registro'].dt.year == Año) & (datos['Fecha del registro'].dt.month == mes)]
                 columna = apoyo.get(opcion)
-                promedio1 = datos_filtrados1[columna].mean()
-                promedio2 = datos_filtrados2[columna].mean() 
-                fig = px.bar(
-                    x=[f"{mes1} {Año1}", f"{mes2} {Año2}"],
-                    y=[promedio1, promedio2],
-                    title=f'Comparación {mes1} de {Año1} y {mes2} de {Año2}',
-                    labels={'x': 'Mes y Año', 'y': f'Promedio'},
-                    color=[f"{mes1} {Año1}", f"{mes2} {Año2}"]
-                )
-                fig.update_traces(showlegend=False)
-                st.plotly_chart(fig)
-            else:
-                st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
-
-        elif metodo == 'De un año':
-            Año = st.segmented_control('Seleccione el año:', datos['Fecha del registro'].dt.year.unique(), key='año')
-            if Año == 2025:
-                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
-            else:
-                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-            meses = st.segmented_control('Seleccione el/los mes/es:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
-                                                            selection_mode='multi', key='meses')
-            if Año != None and meses != None and opcion != 'Seleccione la variable a visualizar':
-                promedios = []
-                meses_seleccionados = [arr_m.index(mes) + 1 for mes in meses]
-                meses_seleccionados.sort()
-                for mes in meses_seleccionados:
-                    datos_filtrados = datos[(datos['Fecha del registro'].dt.year == Año) & (datos['Fecha del registro'].dt.month == mes)]
-                    columna = apoyo.get(opcion)
-                    promedio = datos_filtrados[columna].mean()
-                    promedios.append(promedio)
-            
-                fig = px.bar(
-                    x=meses,
-                    y=promedios,
-                    title=f'Promedio Mensual de {opcion} en {Año}',
-                    labels={'x': 'Mes', 'y': f'Promedio de {opcion}'},
-                    color=meses
-                )
-                fig.update_traces(showlegend=False)
-                st.plotly_chart(fig)
-            else:
-                st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
+                promedio = datos_filtrados[columna].mean()
+                promedios.append(promedio)
+        
+            fig = px.bar(
+                x=meses,
+                y=promedios,
+                title=f'Promedio Mensual de {opcion} en {Año}',
+                labels={'x': 'Mes', 'y': f'Promedio de {opcion}'},
+                color=meses
+            )
+            fig.update_traces(showlegend=False)
+            st.plotly_chart(fig)
+        else:
+            st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
     elif rangos == 'Anual':
-        st.write('Seleccione el rango de fechas para calcular los promedios anuales.')
-        rango_fechas = fechas("promedios_anuales")
-        datos_anuales = datos[(datos['Fecha del registro'] >= rango_fechas[0]) & (datos['Fecha del registro'] <= rango_fechas[1])]
-        datos_anuales['Año'] = datos_anuales['Fecha del registro'].dt.year
-        promedios_anuales = datos_anuales.groupby('Año').mean().reset_index()
+        Años = st.segmented_control('Seleccione los años:', datos['Fecha del registro'].dt.year.unique(), key='años')
+        if Años != None and opcion != None:
+            promedios_anuales = []
+            for año in Años:
+                datos_filtrados = datos[datos['Fecha del registro'].dt.year == año]
+                columna = apoyo.get(opcion)
+                promedio_anual = datos_filtrados[columna].mean()
+                promedios_anuales.append(promedio_anual)
 
-        # st.write(promedios_anuales)
-        fig = px.bar(promedios_anuales, x='Año', y='Temperatura (°C)', title='Promedio Anual de Temperatura')
-        st.plotly_chart(fig)
+            fig = px.bar(
+                x=Años,
+                y=promedios_anuales,
+                title=f'Promedio Anual de {opcion}',
+                labels={'x': 'Año', 'y': f'Promedio de {opcion}'},
+                color=Años
+            )
+            fig.update_traces(showlegend=False)
+            st.plotly_chart(fig)
+        else:
+            st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
 elif menu_opcion == 'Anomalías climáticas':
     st.header('Identificación de anomalías climáticas ')
