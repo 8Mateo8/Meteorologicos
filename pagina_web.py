@@ -147,7 +147,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
             mes2 = st.segmented_control('Seleccione el mes 2:', arr_m, selection_mode='single', key='mes2')
 
-            if mes1 != None and mes2 != None and Año1 != None and Año2 != None and opcion != 'Seleccione la variable a visualizar':
+            if mes1 != None and mes2 != None and Año1 != None and Año2 != None and opcion != 'Seleccione la variable a visualizar' and mes1 != mes2 and Año1 != Año2:
                 st.write(f"Comparando {opcion} de {mes1} de {Año1} y {mes2} de {Año2}")
 
 
@@ -157,8 +157,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
             else:
                 arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-            meses = st.segmented_control('Seleccione el mes:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
-                                                            selection_mode='multiple', key='meses')
+            meses = st.multiselect('Seleccione el/los mes(es):', arr_m, key='meses')
 
 
 
