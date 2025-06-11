@@ -189,19 +189,20 @@ elif menu_opcion == 'Comparación de rangos temporales':
         meses = st.segmented_control('Seleccione el/los mes/es:', arr_m, selection_mode='multi', key='meses')
         if Año != None and meses != [] and opcion != None:
             promedios = []
+            datos_disp = []
             meses_seleccionados = [arr_m.index(mes) + 1 for mes in meses]
             for mes in meses_seleccionados:
                 datos_filtrados = datos[(datos['Fecha del registro'].dt.year == Año) & (datos['Fecha del registro'].dt.month == mes)]
                 columna = apoyo.get(opcion)
                 promedio = datos_filtrados[columna].mean()
                 promedios.append(promedio)
+                datos_disp.append(datos_filtrados[columna].to_list())
         
             fig = px.violin(
                 x=meses,
-                y=datos_filtrados[columna].tolist(),
+                y=datos_disp,
                 title=f'Promedio Mensual de {opcion} en {Año}',
                 labels={'x': 'Mes', 'y': f'Promedio de {opcion}'},
-                box=True,
                 color=meses
             )
             fig.update_traces(showlegend=False)
@@ -228,13 +229,12 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 'Promedio': promedios_anuales
             })
 
-            fig = px.violin(
+            fig = px.bar(
                 df_promedios,
                 x='Año',
                 y='Promedio',
                 title=f'Promedio Anual de {opcion}',
                 labels={'Año': 'Año', 'Promedio': 'Promedio anual'},
-                box=True,
                 color='Año'
             )
             fig.update_layout(xaxis_type='category')
