@@ -167,7 +167,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
     elif rangos == 'Anual':
-        Años = st.segmented_control('Seleccione los años:', datos['Fecha del registro'].dt.year.unique().tolist(), 
+        Años = st.segmented_control('Seleccione los años:', ['2020', '2021', '2022', '2023', '2024', '2025'], 
                                     selection_mode='multi', key='años')
         if Años != None and opcion != None:
             promedios_anuales = []
