@@ -223,7 +223,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 promedios.append(promedio)
 
                 # Realizar la prueba de normalidad
-                normal = normal and Shapiro(datos_filtrados[columna], arr_m[mes - 1], Año)
+                # normal = normal and Shapiro(datos_filtrados[columna], arr_m[mes - 1], Año)
         
             # Crear un gráfico de barras con los promedios mensuales
             fig = px.bar(
