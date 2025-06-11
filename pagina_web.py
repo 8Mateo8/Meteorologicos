@@ -157,7 +157,8 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
             else:
                 arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-            meses = st.multiselect('Seleccione el/los mes(es):', arr_m, key='meses')
+            meses = st.segmented_control('Seleccione el mes:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+                                                            selection_mode='multi', key='meses')
 
 
 
