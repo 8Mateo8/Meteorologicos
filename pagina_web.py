@@ -167,7 +167,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
     elif rangos == 'Anual':
-        Años = st.segmented_control('Seleccione los años:', datos['Fecha del registro'].dt.year.unique(), 
+        Años = st.segmented_control('Seleccione los años:', str(datos['Fecha del registro'].dt.year.unique()), 
                                     selection_mode='multi', key='años')
         if Años != None and opcion != None:
             promedios_anuales = []
@@ -178,7 +178,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 promedios_anuales.append(promedio_anual)
 
             fig = px.bar(
-                x=Años,
+                x=Años.to,
                 y=promedios_anuales,
                 title=f'Promedio Anual de {opcion}',
                 labels={'x': 'Año', 'y': f'Promedio de {opcion}'},
