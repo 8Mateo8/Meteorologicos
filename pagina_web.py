@@ -188,15 +188,17 @@ elif menu_opcion == 'Comparación de rangos temporales':
                     promedio = datos_filtrados[columna].mean()
                     promedios.append(promedio)
             
-            fig = px.bar(
-                x=meses,
-                y=promedios,
-                title=f'Promedio Mensual de {opcion} en {Año}',
-                labels={'x': 'Mes', 'y': f'Promedio de {opcion}'},
-                color=meses
-            )
-            fig.update_traces(showlegend=False)
-            st.plotly_chart(fig)
+                fig = px.bar(
+                    x=meses,
+                    y=promedios,
+                    title=f'Promedio Mensual de {opcion} en {Año}',
+                    labels={'x': 'Mes', 'y': f'Promedio de {opcion}'},
+                    color=meses
+                )
+                fig.update_traces(showlegend=False)
+                st.plotly_chart(fig)
+            else:
+                st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
     elif rangos == 'Anual':
         st.write('Seleccione el rango de fechas para calcular los promedios anuales.')
