@@ -50,20 +50,21 @@ apoyo = {'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
          'Precipitación total corregida (mm/día)': 'Precipitación (mm)',
          'Radiación solar total en la superficie (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'}
 
+# Función para calcular la prueba de Kendall Tau
 def kend_tau(data, columna):
     x = data['Fecha del registro'].map(pd.Timestamp.toordinal)
     booleano = st.toggle('Prueba estadística', key='estadistica_temperatura')
 
     if booleano:
         tau, p = stats.kendalltau(x, data[columna])
-        st.write(f"Estadístico de Kendall: {tau}, p-valor: {p}")
+        st.write('Prueba de Kendall')
+        st.write(f"τ: {tau}, p: {p}")
         if p < 0.05 and tau > 0:
-            st.success("Hay una tendencia creciente significativa en los datos.")
+            st.success("Hay una tendencia creciente en los datos.")
         elif p < 0.05 and tau < 0:
-            st.error("Hay una tendencia decreciente significativa en los datos.")
+            st.success("Hay una tendencia decreciente en los datos.")
         elif p >= 0.05:
-            st.warning("No hay evidencia suficiente para afirmar que existe una tendencia significativa " \
-            "en los datos.")
+            st.warning("La correlación no es estadísticamente significativa")
 
 # Configuración del menú de la página
 menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 
@@ -195,11 +196,12 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 promedio = datos_filtrados[columna].mean()
                 promedios.append(promedio)
         
-            fig = px.bar(
+            fig = px.violin(
                 x=meses,
                 y=promedios,
                 title=f'Promedio Mensual de {opcion} en {Año}',
                 labels={'x': 'Mes', 'y': f'Promedio de {opcion}'},
+                box=True,
                 color=meses
             )
             fig.update_traces(showlegend=False)
@@ -226,12 +228,13 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 'Promedio': promedios_anuales
             })
 
-            fig = px.bar(
+            fig = px.violin(
                 df_promedios,
                 x='Año',
                 y='Promedio',
                 title=f'Promedio Anual de {opcion}',
                 labels={'Año': 'Año', 'Promedio': 'Promedio anual'},
+                box=True,
                 color='Año'
             )
             fig.update_layout(xaxis_type='category')
