@@ -135,17 +135,28 @@ elif menu_opcion == 'Comparación de rangos temporales':
         metodo = st.segmented_control(None, ['De un año', 'De varios años'])
         if metodo == 'De varios años':
             Año1 = st.segmented_control('Seleccione el año 1:', datos['Fecha del registro'].dt.year.unique(), key='año1')
-            mes1 = st.segmented_control('Seleccione el mes 1:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
-                                                            selection_mode='single', key='mes1')
+            if Año1 == 2025:
+                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
+            else:
+                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+            mes1 = st.segmented_control('Seleccione el mes 1:', arr_m, selection_mode='single', key='mes1')
             Año2 = st.segmented_control('Seleccione el año 2:', datos['Fecha del registro'].dt.year.unique(), key='año2')
-            mes2 = st.segmented_control('Seleccione el mes 2:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
-                                                            selection_mode='single', key='mes2')
+            if Año2 == 2025:
+                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
+            else:
+                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+            mes2 = st.segmented_control('Seleccione el mes 2:', arr_m, selection_mode='single', key='mes2')
 
-            st.write(f"Comparando {opcion} de {mes1} de {Año1} y {mes2} de {Año2}")
+            if mes1 != None and mes2 != None and Año1 != None and Año2 != None and opcion != 'Seleccione la variable a visualizar':
+                st.write(f"Comparando {opcion} de {mes1} de {Año1} y {mes2} de {Año2}")
 
 
         elif metodo == 'De un año':
             Año = st.segmented_control('Seleccione el año:', datos['Fecha del registro'].dt.year.unique(), key='año')
+            if Año == 2025:
+                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
+            else:
+                arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
             meses = st.segmented_control('Seleccione el mes:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
                                                             selection_mode='multiple', key='meses')
 
