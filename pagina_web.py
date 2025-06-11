@@ -66,6 +66,17 @@ def kend_tau(data, columna):
         elif p >= 0.05:
             st.warning("La correlación no es estadísticamente significativa")
 
+# Función para realizar la prueba de normalidad
+def Shapiro(data, mes, año):
+    stat, p = stats.shapiro(data)
+    st.write(f"Columna: {mes} de {año}, Estadístico: {stat}, p: {p}")
+    if p > 0.05:
+        st.write(f"Columna: {mes} de {año}, Estadístico: {stat}, p: {p}, Distribución normal")
+        return True # La variable sigue una distribución normal.
+    else:
+        st.write(f"Columna: {mes} de {año}, Estadístico: {stat}, p: {p}, Distribución no normal")
+        return False # La variable no sigue una distribución normal.
+
 # Configuración del menú de la página
 menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 
                                  'Anomalías climáticas', 'Preguntas de investigación'], 
@@ -95,6 +106,9 @@ elif menu_opcion == 'Tendencias climáticas':
     st.header('Visualización de tendencias climáticas a lo largo del tiempo.')
     variable = variables_clima()
 
+    # Se filtran los datos según la variable seleccionada
+    # Se crea un gráfico de líneas para la variable seleccionada
+    # Se calcula la prueba de Kendall Tau para la tendencia de la variable seleccionada
     if variable == 'Temperatura promedio del aire a 2 metros (°C)':
         arreglo = fechas("temperatura")
         grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
@@ -177,30 +191,44 @@ elif menu_opcion == 'Tendencias climáticas':
 
 elif menu_opcion == 'Comparación de rangos temporales':
     st.header('Comparación de promedios mensuales o anuales entre diferentes rangos temporales.')
+    
+    # Menú para seleccionar el rango de tiempo
     rangos = st.pills('Seleccione el rango de tiempo para comparar promedios:', ['Mensual', 'Anual'])
+    
+    # Selección de la variable climática
     opcion = variables_clima()
 
+    # Validación de la selección de la variable
     if rangos == 'Mensual':
+
+        # Selección del año y meses
         Año = st.segmented_control('Seleccione el año:', datos['Fecha del registro'].dt.year.unique(), key='año')
         if Año == 2025:
             arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
         else:
             arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
         meses = st.segmented_control('Seleccione el/los mes/es:', arr_m, selection_mode='multi', key='meses')
+        
+        # Validación de la selección del año, meses y variable
         if Año != None and meses != [] and opcion != None:
             promedios = []
-            datos_disp = []
             meses_seleccionados = [arr_m.index(mes) + 1 for mes in meses]
+            normal = True
+
+            # Filtrar los datos por el año y los meses seleccionados
             for mes in meses_seleccionados:
                 datos_filtrados = datos[(datos['Fecha del registro'].dt.year == Año) & (datos['Fecha del registro'].dt.month == mes)]
                 columna = apoyo.get(opcion)
                 promedio = datos_filtrados[columna].mean()
                 promedios.append(promedio)
-                datos_disp.append(datos_filtrados[columna].to_list())
+
+                # Realizar la prueba de normalidad
+                normal = normal and Shapiro(datos_filtrados[columna], arr_m[mes - 1], Año)
         
-            fig = px.violin(
+            # Crear un gráfico de barras con los promedios mensuales
+            fig = px.bar(
                 x=meses,
-                y=datos_disp,
+                y=promedios,
                 title=f'Promedio Mensual de {opcion} en {Año}',
                 labels={'x': 'Mes', 'y': f'Promedio de {opcion}'},
                 color=meses
@@ -209,21 +237,27 @@ elif menu_opcion == 'Comparación de rangos temporales':
             st.plotly_chart(fig)
         else:
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
-
+        
     elif rangos == 'Anual':
+        
+        # Selección de los años
         arr_a = ['2020', '2021', '2022', '2023', '2024', '2025']
         Años = st.segmented_control('Seleccione los años:', arr_a, 
                                     selection_mode='multi', key='años')
 
+        # Validación de la selección de los años y variable
         if Años != [] and opcion != None:
             años_seleccionados = [int(año) for año in Años]
             promedios_anuales = []
+            
+            # Filtrar los datos por los años seleccionados y calcular el promedio anual
             for año in años_seleccionados:
                 datos_filtrados = datos[datos['Fecha del registro'].dt.year == año]
                 columna = apoyo.get(opcion)
                 promedio_anual = datos_filtrados[columna].mean()
                 promedios_anuales.append(promedio_anual)
 
+            # Crear un gráfico de barras con los promedios anuales
             df_promedios = pd.DataFrame({
                 'Año': [str(año) for año in años_seleccionados],
                 'Promedio': promedios_anuales
