@@ -371,7 +371,7 @@ elif menu_opcion == 'Anomalías climáticas':
     anomalia = variables_clima()
 
     if anomalia == 'Temperatura promedio diaria del aire a 2 metros (°C)':
-        columna = apoyo.get('anomalia')
+        columna = apoyo.get(anomalia)
         st.subheader(f"Análisis de anomalías en {columna}")
 
         # Calcular IQR
