@@ -389,18 +389,10 @@ elif menu_opcion == 'Anomalías climáticas':
         st.write(f"Valores normales: {len(datos_filtrados)} | Anómalos: {len(datos_anomalías)}")
         st.write(f"Rango aceptado: [{lim_inf:.2f}, {lim_sup:.2f}]")
 
-        # Prueba de normalidad en los valores filtrados
-        stat, p_shapiro = stats.shapiro(datos_filtrados[columna].dropna())
-        st.write(f"Prueba de Shapiro-Wilk para valores filtrados: p-valor = {p_shapiro:.4f}")
-        if p_shapiro > 0.05:
-            st.success("Los valores filtrados siguen una distribución normal.")
-        else:
-            st.warning("Los valores filtrados NO siguen una distribución normal.")
-
         # Gráfico de dispersión con anomalías resaltadas
-        fig = px.scatter(datos, x="Fecha del registro", y=columna, title=f'{columna} con anomalías (IQR)')
-        fig.add_scatter(x=datos_anomalías["Fecha del registro"], y=datos_anomalías[columna],
-                        mode='markers', marker=dict(color='red', size=6), name="Anomalías")
+        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', color = 'red')
+        # fig.add_scatter(x=datos_anomalías["Fecha del registro"], y=datos_anomalías[columna],
+        #                 mode='markers', marker=dict(color='red', size=6), name="Anomalías")
         st.plotly_chart(fig)
     elif anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
         pass
