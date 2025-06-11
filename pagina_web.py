@@ -23,6 +23,15 @@ def fechas(etiqueta=""):
 
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
 
+def variables_clima():
+    seleccion = st.selectbox('',['Seleccione la variable a visualizar', 'Temperatura promedio diaria del aire a 2 metros (°C)', 
+                                    'Humedad relativa promedio diaria a 2 metros (%)', 
+                                    'Velocidad del viento a 2 metros (m/s)',
+                                    'Precipitación total corregida (mm/día)', 
+                                    'Radiación solar total en la superficie (kWh/m²/día)'])
+    return seleccion
+
+
 menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 'Anomalías climáticas'], 
     icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'exclamation-triangle'], 
     menu_icon="house-door-fill", default_index=0, orientation="horizontal")
@@ -40,16 +49,36 @@ if menu_opcion == 'Inicio':
 elif menu_opcion == 'Tendencias climáticas':
     # Visualización de los datos
     st.header('Visualización de tendencias climáticas a lo largo del tiempo.')
-    variable = st.selectbox('',['Seleccione la variable a visualizar', 'Temperatura promedio diaria del aire a 2 metros (°C)', 
-                                    'Humedad relativa promedio diaria a 2 metros (%)', 
-                                    'Velocidad del viento a 2 metros (m/s)',
-                                    'Precipitación total corregida (mm/día)', 
-                                    'Radiación solar total en la superficie (kWh/m²/día)'])
+    variable = variables_clima()
 
     if variable == 'Temperatura promedio diaria del aire a 2 metros (°C)':
-        pass
+        arreglo = fechas("temperatura")
+        grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
+
+        fig = px.line(
+            grafico,
+            x='Fecha del registro',
+            y='Temperatura (°C)',
+            title='Temperatura Diaria Promedio',
+            labels={'Fecha del registro': 'Fecha', 'Temperatura (°C)': 'Temperatura (°C)'}
+        )
+        fig.update_layout(xaxis_title='Fecha', yaxis_title='Temperatura (°C)')
+        st.plotly_chart(fig)
+
     elif variable == 'Humedad relativa promedio diaria a 2 metros (%)':
-        pass
+        arreglo = fechas("humedad")
+        grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
+
+        fig = px.line(
+            grafico,
+            x='Fecha del registro',
+            y='Humedad (%)',
+            title='Humedad Diaria Promedio',
+            labels={'Fecha del registro': 'Fecha', 'Humedad (%)': 'Humedad (%)'}
+        )
+        fig.update_layout(xaxis_title='Fecha', yaxis_title='Viento (m/s)')
+        st.plotly_chart(fig)
+
     elif variable == 'Velocidad del viento a 2 metros (m/s)':
         arreglo = fechas("viento")
         grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
@@ -94,8 +123,8 @@ elif menu_opcion == 'Tendencias climáticas':
 
 elif menu_opcion == 'Comparación de rangos temporales':
     st.header('Comparación de promedios mensuales o anuales entre diferentes rangos temporales.')
-    rangos = st.pills('Seleccione el rango de tiempo para comparar promedios:', 
-                    ['Mensual', 'Anual'])
+    rangos = st.pills('Seleccione el rango de tiempo para comparar promedios:', ['Mensual', 'Anual'])
+    opcion = variables_clima()
 
     if rangos == 'Mensual':
         st.write('Seleccione el rango de fechas para calcular los promedios mensuales.')
@@ -107,6 +136,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
         # st.write(promedios_mensuales)
         fig = px.bar(promedios_mensuales, x='Mes', y='Temperatura (°C)', title='Promedio Mensual de Temperatura')
         st.plotly_chart(fig)
+
     elif rangos == 'Anual':
         st.write('Seleccione el rango de fechas para calcular los promedios anuales.')
         rango_fechas = fechas("promedios_anuales")
@@ -117,22 +147,18 @@ elif menu_opcion == 'Comparación de rangos temporales':
         # st.write(promedios_anuales)
         fig = px.bar(promedios_anuales, x='Año', y='Temperatura (°C)', title='Promedio Anual de Temperatura')
         st.plotly_chart(fig)
+
 elif menu_opcion == 'Anomalías climáticas':
     st.header('Identificación de anomalías climáticas ')
-    variable_anomalia = st.selectbox('Seleccione la variable para analizar anomalías:', 
-                                      ['Seleccione una variable', 'Temperatura promedio diaria del aire a 2 metros (°C)', 
-                                       'Humedad relativa promedio diaria a 2 metros (%)', 
-                                       'Velocidad del viento a 2 metros (m/s)',
-                                       'Precipitación total corregida (mm/día)', 
-                                       'Radiación solar total en la superficie (kWh/m²/día)'])
+    anomalia = variables_clima()
 
-    if variable_anomalia == 'Temperatura promedio diaria del aire a 2 metros (°C)':
+    if anomalia == 'Temperatura promedio diaria del aire a 2 metros (°C)':
         pass
-    elif variable_anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
+    elif anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
         pass
-    elif variable_anomalia == 'Velocidad del viento a 2 metros (m/s)':
+    elif anomalia == 'Velocidad del viento a 2 metros (m/s)':
         pass
-    elif variable_anomalia == 'Precipitación total corregida (mm/día)':
+    elif anomalia == 'Precipitación total corregida (mm/día)':
         pass
-    elif variable_anomalia == 'Radiación solar total en la superficie (kWh/m²/día)':
+    elif anomalia == 'Radiación solar total en la superficie (kWh/m²/día)':
         pass
