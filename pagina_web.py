@@ -162,7 +162,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 columna = variable_map.get(opcion)
                 promedios_mensuales = datos_filtrados.groupby(['Mes', 'Fecha del registro']).mean(numeric_only=True).reset_index()
                 if columna in promedios_mensuales.columns:
-                    fig = px.bar(promedios_mensuales, x='Mes', y=columna, color='Fecha del registro',
+                    fig = px.bar(promedios_mensuales, x='Mes', y=columna, color='Mes',
                                  title=f'Promedio Mensual de {opcion} para {Año1} y {Año2}')
                     st.plotly_chart(fig)
                 else:
