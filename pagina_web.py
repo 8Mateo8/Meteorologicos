@@ -151,10 +151,22 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 datos_filtrados = datos[(datos['Fecha del registro'].dt.year.isin([Año1, Año2])) &
                                         (datos['Fecha del registro'].dt.month.isin([arr_m.index(mes1) + 1, arr_m.index(mes2) + 1]))]
                 datos_filtrados['Mes'] = datos_filtrados['Fecha del registro'].dt.month_name()
-                promedios_mensuales = datos_filtrados.groupby(['Mes', 'Fecha del registro']).mean().reset_index()
-                fig = px.bar(promedios_mensuales, x='Mes', y=opcion, color='Fecha del registro',
-                             title=f'Promedio Mensual de {opcion} para {Año1} y {Año2}')
-                st.plotly_chart(fig)
+                # Map user-friendly variable names to DataFrame column names
+                variable_map = {
+                    'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
+                    'Humedad relativa promedio a 2 metros (%)': 'Humedad relativa (%)',
+                    'Velocidad del viento a 2 metros (m/s)': 'Viento (m/s)',
+                    'Precipitación total corregida (mm/día)': 'Precipitación (mm)',
+                    'Radiación solar total en la superficie (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'
+                }
+                columna = variable_map.get(opcion)
+                promedios_mensuales = datos_filtrados.groupby(['Mes', 'Fecha del registro']).mean(numeric_only=True).reset_index()
+                if columna in promedios_mensuales.columns:
+                    fig = px.bar(promedios_mensuales, x='Mes', y=columna, color='Fecha del registro',
+                                 title=f'Promedio Mensual de {opcion} para {Año1} y {Año2}')
+                    st.plotly_chart(fig)
+                else:
+                    st.warning('No se encontró la columna correspondiente para la variable seleccionada.')
             else:
                 st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
