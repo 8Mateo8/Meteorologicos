@@ -619,21 +619,25 @@ elif menu_opcion == 'Gráficos':
 elif menu_opcion == 'Preguntas de investigación':
     st.header('Preguntas de investigación y conclusiones')
     st.markdown('''
-1. **Tendencia de aumento en la temperatura**  
+<div style="text-align: justify;">
+
+1. <b>Tendencia de aumento en la temperatura</b>  
    Se identificó una tendencia ascendente en la temperatura promedio del aire, respaldada por la prueba de Kendall Tau. Este incremento es progresivo y sugiere posibles efectos del cambio climático local o procesos de urbanización.
 
-2. **Variabilidad significativa entre años**  
+2. <b>Variabilidad significativa entre años</b>  
    La comparación de promedios anuales y mensuales reveló diferencias significativas en variables como la radiación solar y la precipitación. Esto refleja años más secos o lluviosos, probablemente influenciados por fenómenos climáticos regionales.
 
-3. **Correlaciones coherentes entre variables numéricas**  
+3. <b>Correlaciones coherentes entre variables numéricas</b>  
    Se confirmó que temperaturas más altas están asociadas con mayor radiación solar, mientras que la precipitación tiende a reducirla. Estas relaciones son esperadas y validan la consistencia interna del conjunto de datos.
 
-4. **Relación significativa entre variables categóricas**  
+4. <b>Relación significativa entre variables categóricas</b>  
    Se encontraron asociaciones claras entre:
    - Temperatura y radiación (altas temperaturas coinciden con alta radiación).
    - Humedad y precipitación (niveles altos de humedad acompañan a lluvias fuertes).
    - Viento y precipitación (los vientos más fuertes se relacionan con eventos de lluvia intensa).
 
-5. **Eventos meteorológicos extremos detectados**  
+5. <b>Eventos meteorológicos extremos detectados</b>  
    Aunque no fueron frecuentes, se identificaron anomalías (valores atípicos) en temperatura, viento y radiación. Estos eventos extremos deben ser monitoreados para evaluar su frecuencia futura y posible impacto.
+
+</div>
 ''', unsafe_allow_html=True)
