@@ -29,12 +29,16 @@ def fechas(etiqueta=""):
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
 
 def variables_clima():
-    seleccion = st.selectbox('Seleccione la variable a visualizar:', ['Temperatura promedio del aire a 2 metros (°C)', 
-                                    'Humedad relativa promedio a 2 metros (%)', 
-                                    'Velocidad del viento a 2 metros (m/s)',
-                                    'Precipitación total corregida (mm/día)', 
-                                    'Radiación solar total en la superficie (kWh/m²/día)'])
-    return seleccion
+    seleccion = st.selectbox('Seleccione la variable a visualizar:', ['Seleccione una opción',  
+                                                                      'Temperatura promedio del aire a 2 metros (°C)',
+                                                                      'Humedad relativa promedio a 2 metros (%)',
+                                                                      'Velocidad del viento a 2 metros (m/s)',
+                                                                      'Precipitación total corregida (mm/día)',
+                                                                      'Radiación solar total en la superficie (kWh/m²/día)'])
+    if seleccion == 'Seleccione una opción':
+        return None
+    else:
+        return seleccion
 
 apoyo = {'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
          'Humedad relativa promedio a 2 metros (%)': 'Humedad relativa (%)',
