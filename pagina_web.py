@@ -391,8 +391,8 @@ elif menu_opcion == 'Anomalías climáticas':
 
         # Gráfico de dispersión con anomalías resaltadas
         fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', color_discrete_sequence=['red'])
-        # fig.add_scatter(x=datos_anomalías["Fecha del registro"], y=datos_anomalías[columna],
-        #                 mode='markers', marker=dict(color='red', size=6), name="Anomalías")
+        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                        mode='markers', marker=dict(color='red', size=2))
         st.plotly_chart(fig)
     elif anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
         pass
