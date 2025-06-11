@@ -182,6 +182,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
             if Año != None and meses != None and opcion != 'Seleccione la variable a visualizar':
                 promedios = []
                 meses_seleccionados = [arr_m.index(mes) + 1 for mes in meses]
+                meses_seleccionados.sort()
                 for mes in meses_seleccionados:
                     datos_filtrados = datos[(datos['Fecha del registro'].dt.year == Año) & (datos['Fecha del registro'].dt.month == mes)]
                     columna = apoyo.get(opcion)
