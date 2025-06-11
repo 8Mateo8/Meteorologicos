@@ -390,7 +390,7 @@ elif menu_opcion == 'Anomalías climáticas':
         st.write(f"Rango aceptado: [{lim_inf:.2f}, {lim_sup:.2f}]")
 
         # Gráfico de dispersión con anomalías resaltadas
-        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', color = 'red')
+        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', color_discrete_sequence=['red'])
         # fig.add_scatter(x=datos_anomalías["Fecha del registro"], y=datos_anomalías[columna],
         #                 mode='markers', marker=dict(color='red', size=6), name="Anomalías")
         st.plotly_chart(fig)
