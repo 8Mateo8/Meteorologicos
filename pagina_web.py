@@ -624,7 +624,7 @@ elif menu_opcion == 'Preguntas de investigación':
 
 1. <b>¿Existe alguna tendencia climática marcada en la ciudad de Cuenca?</b>  
    En los últimos cinco años se ha observado una tendencia ligeramente creciente en la temperatura, confirmada mediante la prueba de Kendall Tau. Esto sugiere posibles efectos del cambio climático local.  
-   De forma complementaria, se evidencia una tendencia decreciente en la humedad relativa, lo cual puede indicar una relación inversa entre ambas variables en ciertos periodos.
+   De forma complementaria, se evidencia una tendencia decreciente en la humedad relativa, lo cual puede indicar una relación inversamente proporcional entre ambas variables en ciertos periodos.
 
 2. <b>¿Los datos meteorológicos varían al compararlos con meses o años anteriores?</b>  
    Sí. Por ejemplo, al comparar la precipitación de enero y agosto de 2024, la prueba de Mann-Whitney muestra diferencias estadísticamente significativas, reflejando que los patrones de lluvia no se mantienen constantes.  
