@@ -35,6 +35,8 @@ if menu_opcion == 'Inicio':
     st.markdown('<div style="text-align: justify;">En esta página web se presentan los datos meteorológicos de la ciudad de Cuenca, obtenidos a partir de la base de datos del proyecto POWER (Prediction Of Worldwide Energy Resources) de la NASA. Este conjunto de datos incluye información meteorológica histórica y actualizada, recopilada mediante sensores satelitales.</div>', unsafe_allow_html=True)
     st.write('Los datos están disponibles desde el 1 de enero del 2020 hasta el 31 de mayo del 2025.')
 
+    st.image('cathedral-of-cuenca-4021077_1920.jpg', width=200)
+
 elif menu_opcion == 'Tendencias climáticas':
     # Visualización de los datos
     st.header('Visualización de tendencias climáticas a lo largo del tiempo.')
