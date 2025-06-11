@@ -385,15 +385,20 @@ elif menu_opcion == 'Anomalías climáticas':
         datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
         datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
 
-        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
-        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+        # Mostrar advertencia si no se detectan anomalías
+        if datos_anomalías.empty:
+            st.warning('No se detectaron anomalías en los datos seleccionados.')
+        else:
+            # Mostrar las anomalías detectadas
+            st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
+            st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
 
-        # Gráfico de dispersión con anomalías resaltadas
-        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
-                         color_discrete_sequence=['red'])
-        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
-        st.plotly_chart(fig)
+            # Gráfico de dispersión con anomalías resaltadas
+            fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                            color_discrete_sequence=['red'])
+            fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                            mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
+            st.plotly_chart(fig)
 
     elif anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
         columna = apoyo.get(anomalia)
@@ -410,15 +415,20 @@ elif menu_opcion == 'Anomalías climáticas':
         datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
         datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
 
-        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
-        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+        # Mostrar advertencia si no se detectan anomalías
+        if datos_anomalías.empty:
+            st.warning('No se detectaron anomalías en los datos seleccionados.')
+        else:
+            # Mostrar las anomalías detectadas
+            st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
+            st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
 
-        # Gráfico de dispersión con anomalías resaltadas
-        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
-                         color_discrete_sequence=['red'])
-        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
-        st.plotly_chart(fig)
+            # Gráfico de dispersión con anomalías resaltadas
+            fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                            color_discrete_sequence=['red'])
+            fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                            mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
+            st.plotly_chart(fig)
 
     elif anomalia == 'Velocidad del viento a 2 metros (m/s)':
         columna = apoyo.get(anomalia)
@@ -435,15 +445,20 @@ elif menu_opcion == 'Anomalías climáticas':
         datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
         datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
 
-        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
-        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+        # Mostrar advertencia si no se detectan anomalías
+        if datos_anomalías.empty:
+            st.warning('No se detectaron anomalías en los datos seleccionados.')
+        else:
+            # Mostrar las anomalías detectadas
+            st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
+            st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
 
-        # Gráfico de dispersión con anomalías resaltadas
-        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
-                         color_discrete_sequence=['red'])
-        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
-        st.plotly_chart(fig)
+            # Gráfico de dispersión con anomalías resaltadas
+            fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                            color_discrete_sequence=['red'])
+            fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                            mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
+            st.plotly_chart(fig)        
 
     elif anomalia == 'Precipitación total corregida (mm/día)':
         columna = apoyo.get(anomalia)
@@ -460,15 +475,20 @@ elif menu_opcion == 'Anomalías climáticas':
         datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
         datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
 
-        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
-        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+        # Mostrar advertencia si no se detectan anomalías
+        if datos_anomalías.empty:
+            st.warning('No se detectaron anomalías en los datos seleccionados.')
+        else:
+            # Mostrar las anomalías detectadas
+            st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
+            st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
 
-        # Gráfico de dispersión con anomalías resaltadas
-        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
-                         color_discrete_sequence=['red'])
-        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
-        st.plotly_chart(fig)
+            # Gráfico de dispersión con anomalías resaltadas
+            fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                            color_discrete_sequence=['red'])
+            fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                            mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
+            st.plotly_chart(fig)        
 
     elif anomalia == 'Radiación solar total en la superficie (kWh/m²/día)':
         columna = apoyo.get(anomalia)
@@ -485,15 +505,20 @@ elif menu_opcion == 'Anomalías climáticas':
         datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
         datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
 
-        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
-        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+        # Mostrar advertencia si no se detectan anomalías
+        if datos_anomalías.empty:
+            st.warning('No se detectaron anomalías en los datos seleccionados.')
+        else:
+            # Mostrar las anomalías detectadas
+            st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
+            st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
 
-        # Gráfico de dispersión con anomalías resaltadas
-        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
-                         color_discrete_sequence=['red'])
-        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
-        st.plotly_chart(fig)
+            # Gráfico de dispersión con anomalías resaltadas
+            fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                            color_discrete_sequence=['red'])
+            fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                            mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
+            st.plotly_chart(fig)        
 
 elif menu_opcion == 'Preguntas de investigación':
     st.header('Preguntas de investigación')
