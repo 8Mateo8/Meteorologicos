@@ -628,12 +628,12 @@ elif menu_opcion == 'Preguntas de investigación':
 
 2. <b>¿Los datos meteorológicos varían al compararlos con meses o años anteriores?</b>  
    Sí. Por ejemplo, al comparar la precipitación de enero y agosto de 2024, la prueba de Mann-Whitney muestra diferencias estadísticamente significativas, reflejando que los patrones de lluvia no se mantienen constantes.  
-   Del mismo modo, al analizar la radiación solar entre los años 2020, 2021 y 2023, la prueba de Kruskal-Wallis confirmó variaciones significativas interanuales.
+   Del mismo modo, al analizar la radiación solar entre los años 2020, 2021 y 2023, la prueba de Kruskal-Wallis confirmó variaciones significativas entre años.
 
 3. <b>¿Qué variables tienen alguna correlación con la temperatura?</b>  
    La temperatura fue clasificada en categorías y relacionada con otras variables usando la prueba de chi-cuadrado. Se identificó una relación significativa con:  
    - Radiación solar: mayor radiación tiende a aumentar la temperatura ambiente.  
-   - Velocidad del viento: vientos más fuertes pueden favorecer una sensación térmica más baja, aunque la relación es más sutil.
+   - Velocidad del viento: vientos más fuertes pueden favorecer una sensación térmica más baja, aunque la relación es más débil.
 
 4. <b>¿Hay otras variables que estén relacionadas entre sí?</b>  
    Sí, se encontraron relaciones significativas entre variables categorizadas, tales como:  
