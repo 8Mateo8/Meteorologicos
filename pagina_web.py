@@ -521,7 +521,6 @@ elif menu_opcion == 'Anomalías climáticas':
             st.plotly_chart(fig)        
 
 elif menu_opcion == 'Gráficos':
-    st.header('Gráficos de las variables climáticas')
 
     st.subheader('Correlación entre las variables numéricas')
     # Mapa de calor de correlación
@@ -535,6 +534,7 @@ elif menu_opcion == 'Gráficos':
     )
     st.plotly_chart(fig)
 
+    st.subheader('Correlación entre las variables categóricas')
     # Variables categóricas
     datos['Categoría Temperatura'] = pd.cut(
     datos['Temperatura (°C)'],
@@ -568,9 +568,9 @@ elif menu_opcion == 'Gráficos':
     stat1, p1, _, _ = stats.chi2_contingency(tabla1)
     st.write(f"Valor p: {p1:.4f}")
     if p1 < 0.05:
-        st.success("Existe una relación significativa entre la temperatura y la radiación.")
+        st.write("Existe una relación significativa entre la temperatura y la radiación.")
     else:
-        st.info("No se encontró relación significativa entre la temperatura y la radiación.")
+        st.write("No se encontró relación significativa entre la temperatura y la radiación.")
 
     # Temperatura vs Viento
     tabla2 = pd.crosstab(datos['Categoría Temperatura'], datos['Categoría Viento'])
@@ -579,9 +579,9 @@ elif menu_opcion == 'Gráficos':
     stat2, p2, _, _ = stats.chi2_contingency(tabla2)
     st.write(f"Valor p: {p2:.4f}")
     if p2 < 0.05:
-        st.success("Existe una relación significativa entre la temperatura y el viento.")
+        st.write("Existe una relación significativa entre la temperatura y el viento.")
     else:
-        st.info("No se encontró relación significativa entre la temperatura y el viento.")
+        st.write("No se encontró relación significativa entre la temperatura y el viento.")
 
     # Humedad vs Precipitación
     tabla3 = pd.crosstab(datos['Categoría Humedad'], datos['Categoría Precipitación'])
@@ -590,9 +590,9 @@ elif menu_opcion == 'Gráficos':
     stat3, p3, _, _ = stats.chi2_contingency(tabla3)
     st.write(f"Valor p: {p3:.4f}")
     if p3 < 0.05:
-        st.success("Existe una relación significativa entre la humedad y la precipitación.")
+        st.write("Existe una relación significativa entre la humedad y la precipitación.")
     else:
-        st.info("No se encontró relación significativa entre la humedad y la precipitación.")
+        st.write("No se encontró relación significativa entre la humedad y la precipitación.")
 
     # Humedad vs Radiación
     tabla4 = pd.crosstab(datos['Categoría Humedad'], datos['Categoría Radiación'])
@@ -601,9 +601,9 @@ elif menu_opcion == 'Gráficos':
     stat4, p4, _, _ = stats.chi2_contingency(tabla4)
     st.write(f"Valor p: {p4:.4f}")
     if p4 < 0.05:
-        st.success("Existe una relación significativa entre la humedad y la radiación.")
+        st.write("Existe una relación significativa entre la humedad y la radiación.")
     else:
-        st.info("No se encontró relación significativa entre la humedad y la radiación.")
+        st.write("No se encontró relación significativa entre la humedad y la radiación.")
 
     # Viento vs Precipitación
     tabla5 = pd.crosstab(datos['Categoría Viento'], datos['Categoría Precipitación'])
@@ -612,27 +612,28 @@ elif menu_opcion == 'Gráficos':
     stat5, p5, _, _ = stats.chi2_contingency(tabla5)
     st.write(f"Valor p: {p5:.4f}")
     if p5 < 0.05:
-        st.success("Existe una relación significativa entre el viento y la precipitación.")
+        st.write("Existe una relación significativa entre el viento y la precipitación.")
     else:
-        st.info("No se encontró relación significativa entre el viento y la precipitación.")
-
-
+        st.write("No se encontró relación significativa entre el viento y la precipitación.")
     
 elif menu_opcion == 'Preguntas de investigación':
-    st.header('Preguntas de investigación')
+    st.header('Preguntas de investigación y conclusiones')
     st.markdown('''
-    1. **¿Cómo ha cambiado la temperatura promedio en Cuenca a lo largo del tiempo?**
-       - Esta pregunta busca identificar tendencias en la temperatura promedio diaria a lo largo de los años.
-    
-    2. **¿Cuál es la variación estacional de la humedad relativa en Cuenca?**
-       - Se pretende analizar cómo varía la humedad relativa promedio a lo largo de los meses del año.
-    
-    3. **¿Cómo afecta la velocidad del viento a las precipitaciones en Cuenca?**
-       - Esta pregunta investiga la relación entre la velocidad del viento y las precipitaciones diarias.
-    
-    4. **¿Qué patrones se pueden observar en la radiación solar a lo largo del año?**
-       - Se busca identificar patrones estacionales en la radiación solar total en la superficie.
-    
-    5. **¿Existen anomalías climáticas significativas en los últimos años?**
-       - Esta pregunta se centra en detectar anomalías climáticas, como eventos extremos o cambios inusuales en las variables meteorológicas.
-    ''')
+1. **Tendencia de aumento en la temperatura**  
+   Se identificó una tendencia ascendente en la temperatura promedio del aire, respaldada por la prueba de Kendall Tau. Este incremento es progresivo y sugiere posibles efectos del cambio climático local o procesos de urbanización.
+
+2. **Variabilidad significativa entre años**  
+   La comparación de promedios anuales y mensuales reveló diferencias significativas en variables como la radiación solar y la precipitación. Esto refleja años más secos o lluviosos, probablemente influenciados por fenómenos climáticos regionales.
+
+3. **Correlaciones coherentes entre variables numéricas**  
+   Se confirmó que temperaturas más altas están asociadas con mayor radiación solar, mientras que la precipitación tiende a reducirla. Estas relaciones son esperadas y validan la consistencia interna del conjunto de datos.
+
+4. **Relación significativa entre variables categóricas**  
+   Se encontraron asociaciones claras entre:
+   - Temperatura y radiación (altas temperaturas coinciden con alta radiación).
+   - Humedad y precipitación (niveles altos de humedad acompañan a lluvias fuertes).
+   - Viento y precipitación (los vientos más fuertes se relacionan con eventos de lluvia intensa).
+
+5. **Eventos meteorológicos extremos detectados**  
+   Aunque no fueron frecuentes, se identificaron anomalías (valores atípicos) en temperatura, viento y radiación. Estos eventos extremos deben ser monitoreados para evaluar su frecuencia futura y posible impacto.
+''', unsafe_allow_html=True)
