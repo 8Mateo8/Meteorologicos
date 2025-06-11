@@ -70,10 +70,10 @@ def kend_tau(data, columna):
 def Shapiro(data, mes, año):
     stat, p = stats.shapiro(data)
     if p > 0.05:
-        st.write(f"{mes} de {año}, Estadístico: {stat}, p: {p}, Distribución normal")
+        # st.write(f"{mes} de {año}, Estadístico: {stat}, p: {p}, Distribución normal")
         return True # La variable sigue una distribución normal.
     else:
-        st.write(f"{mes} de {año}, Estadístico: {stat}, p: {p}, Distribución no normal")
+        # st.write(f"{mes} de {año}, Estadístico: {stat}, p: {p}, Distribución no normal")
         return False # La variable no sigue una distribución normal.
 
 # Configuración del menú de la página
@@ -214,13 +214,16 @@ elif menu_opcion == 'Comparación de rangos temporales':
             meses_seleccionados = [arr_m.index(mes) + 1 for mes in meses]
             normal = True
 
-            # Filtrar los datos por el año y los meses seleccionados
+            # Filtrar los datos por el año, filtrar los meses seleccionados y realizar la prueba de normalidad
             for mes in meses_seleccionados:
                 datos_filtrados = datos[(datos['Fecha del registro'].dt.year == Año) & (datos['Fecha del registro'].dt.month == mes)]
                 columna = apoyo.get(opcion)
                 promedio = datos_filtrados[columna].mean()
                 promedios.append(promedio)
-        
+
+                # Realizar la prueba de normalidad
+                normal = normal and Shapiro(datos_filtrados[columna], arr_m[mes - 1], Año)
+            st.write(normal)
             # Crear un gráfico de barras con los promedios mensuales
             fig = px.bar(
                 x=meses,
@@ -232,14 +235,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
             fig.update_traces(showlegend=False)
             st.plotly_chart(fig)
 
-            # Realizar la prueba de normalidad
-            st.write('Prueba de normalidad de Shapiro-Wilk:')
-            for mes in meses_seleccionados:
-                datos_filtrados = datos[(datos['Fecha del registro'].dt.year == Año) & (datos['Fecha del registro'].dt.month == mes)]
-                columna = apoyo.get(opcion)
-                promedio = datos_filtrados[columna].mean()
-                
-                normal = normal and Shapiro(datos_filtrados[columna], arr_m[mes - 1], Año)
+            
         else:
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
         
