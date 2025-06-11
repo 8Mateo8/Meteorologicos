@@ -198,7 +198,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
         
             fig = px.violin(
                 x=meses,
-                y=promedios,
+                y=datos_filtrados[columna].tolist(),
                 title=f'Promedio Mensual de {opcion} en {Año}',
                 labels={'x': 'Mes', 'y': f'Promedio de {opcion}'},
                 box=True,
