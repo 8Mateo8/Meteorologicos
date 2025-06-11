@@ -392,19 +392,108 @@ elif menu_opcion == 'Anomalías climáticas':
         fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
                          color_discrete_sequence=['red'])
         fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=2))
+                        mode='markers', marker=dict(color='blue', size=3))
         st.plotly_chart(fig)
 
-        
-
     elif anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
-        pass
+        columna = apoyo.get(anomalia)
+        st.subheader(f"Análisis de anomalías en {columna}")
+
+        # Calcular IQR
+        q1 = datos[columna].quantile(0.25)
+        q3 = datos[columna].quantile(0.75)
+        iqr = q3 - q1
+        lim_inf = q1 - 1.5 * iqr
+        lim_sup = q3 + 1.5 * iqr
+
+        # Detectar valores fuera del rango (anomalías)
+        datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
+        datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
+
+        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
+        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+
+        # Gráfico de dispersión con anomalías resaltadas
+        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                         color_discrete_sequence=['red'])
+        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                        mode='markers', marker=dict(color='blue', size=3))
+        st.plotly_chart(fig)
+
     elif anomalia == 'Velocidad del viento a 2 metros (m/s)':
-        pass
+        columna = apoyo.get(anomalia)
+        st.subheader(f"Análisis de anomalías en {columna}")
+
+        # Calcular IQR
+        q1 = datos[columna].quantile(0.25)
+        q3 = datos[columna].quantile(0.75)
+        iqr = q3 - q1
+        lim_inf = q1 - 1.5 * iqr
+        lim_sup = q3 + 1.5 * iqr
+
+        # Detectar valores fuera del rango (anomalías)
+        datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
+        datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
+
+        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
+        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+
+        # Gráfico de dispersión con anomalías resaltadas
+        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                         color_discrete_sequence=['red'])
+        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                        mode='markers', marker=dict(color='blue', size=3))
+        st.plotly_chart(fig)
+
     elif anomalia == 'Precipitación total corregida (mm/día)':
-        pass
+        columna = apoyo.get(anomalia)
+        st.subheader(f"Análisis de anomalías en {columna}")
+
+        # Calcular IQR
+        q1 = datos[columna].quantile(0.25)
+        q3 = datos[columna].quantile(0.75)
+        iqr = q3 - q1
+        lim_inf = q1 - 1.5 * iqr
+        lim_sup = q3 + 1.5 * iqr
+
+        # Detectar valores fuera del rango (anomalías)
+        datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
+        datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
+
+        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
+        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+
+        # Gráfico de dispersión con anomalías resaltadas
+        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                         color_discrete_sequence=['red'])
+        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                        mode='markers', marker=dict(color='blue', size=3))
+        st.plotly_chart(fig)
+
     elif anomalia == 'Radiación solar total en la superficie (kWh/m²/día)':
-        pass
+        columna = apoyo.get(anomalia)
+        st.subheader(f"Análisis de anomalías en {columna}")
+
+        # Calcular IQR
+        q1 = datos[columna].quantile(0.25)
+        q3 = datos[columna].quantile(0.75)
+        iqr = q3 - q1
+        lim_inf = q1 - 1.5 * iqr
+        lim_sup = q3 + 1.5 * iqr
+
+        # Detectar valores fuera del rango (anomalías)
+        datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
+        datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
+
+        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
+        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+
+        # Gráfico de dispersión con anomalías resaltadas
+        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                         color_discrete_sequence=['red'])
+        fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
+                        mode='markers', marker=dict(color='blue', size=3))
+        st.plotly_chart(fig)
 
 elif menu_opcion == 'Preguntas de investigación':
     st.header('Preguntas de investigación')
