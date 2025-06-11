@@ -69,12 +69,11 @@ def kend_tau(data, columna):
 # Función para realizar la prueba de normalidad
 def Shapiro(data, mes, año):
     stat, p = stats.shapiro(data)
-    st.write(f"Columna: {mes} de {año}, Estadístico: {stat}, p: {p}")
     if p > 0.05:
-        st.write(f"Columna: {mes} de {año}, Estadístico: {stat}, p: {p}, Distribución normal")
+        st.write(f"{mes} de {año}, Estadístico: {stat}, p: {p}, Distribución normal")
         return True # La variable sigue una distribución normal.
     else:
-        st.write(f"Columna: {mes} de {año}, Estadístico: {stat}, p: {p}, Distribución no normal")
+        st.write(f"{mes} de {año}, Estadístico: {stat}, p: {p}, Distribución no normal")
         return False # La variable no sigue una distribución normal.
 
 # Configuración del menú de la página
