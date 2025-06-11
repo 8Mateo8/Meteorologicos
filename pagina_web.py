@@ -523,7 +523,19 @@ elif menu_opcion == 'Anomalías climáticas':
 elif menu_opcion == 'Gráficos':
     st.header('Gráficos de las variables climáticas')
     
-    
+    datosn = datos.select_dtypes('number')
+
+    st.subheader('Correlación entre las variables numéricas')
+    # Mapa de calor de correlación
+    fig = px.imshow(
+    datosn.corr(method='kendall'),
+    text_auto=True,
+    color_continuous_scale='Blues',
+    zmin=-1,
+    zmax=1,
+    title="Mapa de calor de correlacion"
+    )
+    st.plotly_chart(fig)
     
 elif menu_opcion == 'Preguntas de investigación':
     st.header('Preguntas de investigación')
