@@ -50,6 +50,21 @@ apoyo = {'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
          'Precipitación total corregida (mm/día)': 'Precipitación (mm)',
          'Radiación solar total en la superficie (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'}
 
+def kend_tau(data, columna):
+    x = data['Fecha del registro'].map(pd.Timestamp.toordinal)
+    booleano = st.toggle('Prueba estadística', key='estadistica_temperatura')
+
+    if booleano:
+        tau, p = stats.kendalltau(x, data[columna])
+        st.write(f"Estadístico de Kendall: {tau}, p-valor: {p}")
+        if p < 0.05 and tau > 0:
+            st.success("Hay una tendencia creciente significativa en los datos.")
+        elif p < 0.05 and tau < 0:
+            st.error("Hay una tendencia decreciente significativa en los datos.")
+        elif p >= 0.05:
+            st.warning("No hay evidencia suficiente para afirmar que existe una tendencia significativa " \
+            "en los datos.")
+
 # Configuración del menú de la página
 menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 
                                  'Anomalías climáticas', 'Preguntas de investigación'], 
@@ -93,6 +108,8 @@ elif menu_opcion == 'Tendencias climáticas':
         fig.update_layout(xaxis_title='Fecha', yaxis_title='Temperatura (°C)')
         st.plotly_chart(fig)
 
+        kend_tau(grafico, 'Temperatura (°C)')
+
     elif variable == 'Humedad relativa promedio a 2 metros (%)':
         arreglo = fechas("humedad")
         grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
@@ -106,6 +123,8 @@ elif menu_opcion == 'Tendencias climáticas':
         )
         fig.update_layout(xaxis_title='Fecha', yaxis_title='Humedad relativa (%)')
         st.plotly_chart(fig)
+
+        kend_tau(grafico, 'Humedad relativa (%)')
 
     elif variable == 'Velocidad del viento a 2 metros (m/s)':
         arreglo = fechas("viento")
@@ -121,6 +140,8 @@ elif menu_opcion == 'Tendencias climáticas':
         fig.update_layout(xaxis_title='Fecha', yaxis_title='Viento (m/s)')
         st.plotly_chart(fig)
 
+        kend_tau(grafico, 'Viento (m/s)')
+
     elif variable == 'Precipitación total corregida (mm/día)':
         arreglo = fechas("precipitacion")
         grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
@@ -135,6 +156,8 @@ elif menu_opcion == 'Tendencias climáticas':
         fig.update_layout(xaxis_title='Fecha', yaxis_title='Precipitación (mm)')
         st.plotly_chart(fig)
 
+        kend_tau(grafico, 'Precipitación (mm)')
+
     elif variable == 'Radiación solar total en la superficie (kWh/m²/día)':
         arreglo = fechas("radiacion")
         grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
@@ -148,6 +171,8 @@ elif menu_opcion == 'Tendencias climáticas':
         )
         fig.update_layout(xaxis_title='Fecha', yaxis_title='Radiación solar (kWh/m²/día)')
         st.plotly_chart(fig)
+
+        kend_tau(grafico, 'Radiación solar (kWh/m²/día)')
 
 elif menu_opcion == 'Comparación de rangos temporales':
     st.header('Comparación de promedios mensuales o anuales entre diferentes rangos temporales.')
