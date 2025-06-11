@@ -392,7 +392,7 @@ elif menu_opcion == 'Anomalías climáticas':
         fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
                          color_discrete_sequence=['red'])
         fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3))
+                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
         st.plotly_chart(fig)
 
     elif anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
@@ -417,7 +417,7 @@ elif menu_opcion == 'Anomalías climáticas':
         fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
                          color_discrete_sequence=['red'])
         fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3))
+                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
         st.plotly_chart(fig)
 
     elif anomalia == 'Velocidad del viento a 2 metros (m/s)':
@@ -442,7 +442,7 @@ elif menu_opcion == 'Anomalías climáticas':
         fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
                          color_discrete_sequence=['red'])
         fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3))
+                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
         st.plotly_chart(fig)
 
     elif anomalia == 'Precipitación total corregida (mm/día)':
@@ -467,7 +467,7 @@ elif menu_opcion == 'Anomalías climáticas':
         fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
                          color_discrete_sequence=['red'])
         fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3))
+                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
         st.plotly_chart(fig)
 
     elif anomalia == 'Radiación solar total en la superficie (kWh/m²/día)':
@@ -492,7 +492,7 @@ elif menu_opcion == 'Anomalías climáticas':
         fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
                          color_discrete_sequence=['red'])
         fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
-                        mode='markers', marker=dict(color='blue', size=3))
+                        mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
         st.plotly_chart(fig)
 
 elif menu_opcion == 'Preguntas de investigación':
