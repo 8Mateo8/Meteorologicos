@@ -241,7 +241,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
             grupos = [datos[(datos['Fecha del registro'].dt.year == Año) & 
                                     (datos['Fecha del registro'].dt.month == mes)][columna].dropna()
                               for mes in meses_seleccionados]
-            st.write(grupos)
+            # st.write(grupos)
             if mostrar and len(grupos) > 1:
                 if normal:
                     st.write('Los datos siguen una distribución normal.')
@@ -284,7 +284,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
         
     elif rangos == 'Anual':
-        
+    
         # Selección de los años
         arr_a = ['2020', '2021', '2022', '2023', '2024', '2025']
         Años = st.segmented_control('Seleccione los años:', arr_a, 
@@ -294,13 +294,19 @@ elif menu_opcion == 'Comparación de rangos temporales':
         if Años != [] and opcion != None:
             años_seleccionados = [int(año) for año in Años]
             promedios_anuales = []
-            
+            grupos = []
+            normal = True
+            columna = apoyo.get(opcion)
+
             # Filtrar los datos por los años seleccionados y calcular el promedio anual
             for año in años_seleccionados:
                 datos_filtrados = datos[datos['Fecha del registro'].dt.year == año]
-                columna = apoyo.get(opcion)
                 promedio_anual = datos_filtrados[columna].mean()
                 promedios_anuales.append(promedio_anual)
+                grupos.append(datos_filtrados[columna].dropna())
+
+                # Prueba de normalidad para cada grupo
+                normal = normal and Shapiro(datos_filtrados[columna], str(año), año)
 
             # Crear un gráfico de barras con los promedios anuales
             df_promedios = pd.DataFrame({
@@ -321,8 +327,45 @@ elif menu_opcion == 'Comparación de rangos temporales':
 
             st.plotly_chart(fig)
 
+            # Pruebas estadísticas
+            mostrar = st.toggle('Pruebas estadísticas', key='pruebas_estadisticas_anual')
+            if mostrar and len(grupos) > 1:
+                if normal:
+                    st.write('Los datos siguen una distribución normal.')
+                    if len(grupos) < 3:
+                        # Prueba t
+                        st.write('Resultados de la prueba t de Student:')
+                        t_stat, p_value = stats.ttest_ind(*grupos)
+                        st.write(f"Estadístico t: {t_stat:.4f}, p: {p_value:.4f}")
+                    else:
+                        # ANOVA
+                        st.write('Resultados de la prueba ANOVA:')
+                        f_stat, p_value = stats.f_oneway(*grupos)
+                        st.write(f"Estadístico F: {f_stat:.4f}, p: {p_value:.4f}")
+                    if p_value < 0.05:
+                        st.write("Hay diferencias significativas entre los promedios anuales.")
+                    else:
+                        st.write("No hay diferencias significativas entre los promedios anuales.")
+                else:
+                    st.write('Los datos no siguen una distribución normal.')
+                    if len(grupos) < 3:
+                        # Mann-Whitney
+                        st.write('Resultados de la prueba U de Mann-Whitney:')
+                        u_stat, p_value = stats.mannwhitneyu(*grupos)
+                        st.write(f"Estadístico U: {u_stat:.4f}, p: {p_value:.4f}")
+                    else:
+                        # Kruskal-Wallis
+                        st.write('Resultados de la prueba Kruskal-Wallis:')
+                        h_stat, p_value = stats.kruskal(*grupos)
+                        st.write(f"Estadístico H: {h_stat:.4f}, p: {p_value:.4f}")
+                    if p_value < 0.05:
+                        st.write("Hay diferencias significativas entre los promedios anuales.")
+                    else:
+                        st.write("No hay diferencias significativas entre los promedios anuales.")
+
         else:
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
+
 
 elif menu_opcion == 'Anomalías climáticas':
     st.header('Identificación de anomalías climáticas ')
