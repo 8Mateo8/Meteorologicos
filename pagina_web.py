@@ -147,8 +147,17 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
             mes2 = st.segmented_control('Seleccione el mes 2:', arr_m, selection_mode='single', key='mes2')
 
-            if mes1 != None and mes2 != None and Año1 != None and Año2 != None and opcion != 'Seleccione la variable a visualizar' and mes1 != mes2 and Año1 != Año2:
-                st.write(f"Comparando {opcion} de {mes1} de {Año1} y {mes2} de {Año2}")
+            if mes1 != None and mes2 != None and Año1 != None and Año2 != None and opcion != 'Seleccione la variable a visualizar' and not(mes1 != mes2 and Año1 == Año2):
+                datos_filtrados = datos[(datos['Fecha del registro'].dt.year.isin([Año1, Año2])) &
+                                        (datos['Fecha del registro'].dt.month.isin([arr_m.index(mes1) + 1, arr_m.index(mes2) + 1]))]
+                datos_filtrados['Mes'] = datos_filtrados['Fecha del registro'].dt.month_name()
+                promedios_mensuales = datos_filtrados.groupby(['Mes', 'Fecha del registro']).mean().reset_index()
+                fig = px.bar(promedios_mensuales, x='Mes', y=opcion, color='Fecha del registro',
+                             title=f'Promedio Mensual de {opcion} para {Año1} y {Año2}')
+                st.plotly_chart(fig)
+            else:
+                st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
+
 
 
         elif metodo == 'De un año':
