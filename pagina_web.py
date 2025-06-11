@@ -385,7 +385,7 @@ elif menu_opcion == 'Anomalías climáticas':
         datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
         datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
 
-        st.subheader("Tabla de anomalías detectadas")
+        st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
         st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
 
         # Gráfico de dispersión con anomalías resaltadas
