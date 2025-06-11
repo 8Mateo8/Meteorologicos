@@ -535,8 +535,88 @@ elif menu_opcion == 'Gráficos':
     )
     st.plotly_chart(fig)
 
-    fig_scatter = px.scatter_matrix(datos.select_dtypes('number'), title="Correlaciones entre variables")
-    st.plotly_chart(fig_scatter)
+    # Variables categóricas
+    datos['Categoría Temperatura'] = pd.cut(
+    datos['Temperatura (°C)'],
+    bins=[-np.inf, 10, 12, 14, 16, np.inf],
+    labels=['Muy baja', 'Baja', 'Moderada', 'Alta', 'Muy alta'])
+
+    datos['Categoría Humedad'] = pd.cut(
+        datos['Humedad relativa (%)'],
+        bins=[-np.inf, 65, 75, 85, 90, np.inf],
+        labels=['Muy seca', 'Seca', 'Moderada', 'Húmeda', 'Muy húmeda'])
+
+    datos['Categoría Radiación'] = pd.cut(
+        datos['Radiación solar (kWh/m²/día)'],
+        bins=[-np.inf, 5, 10, 15, 20, np.inf],
+        labels=['Muy baja', 'Baja', 'Moderada', 'Alta', 'Muy alta'])
+
+    datos['Categoría Viento'] = pd.cut(
+        datos['Viento (m/s)'],
+        bins=[-np.inf, 1, 2, 3, 4, np.inf],
+        labels=['Muy débil', 'Débil', 'Moderado', 'Fuerte', 'Muy fuerte'])
+
+    datos['Categoría Precipitación'] = pd.cut(
+        datos['Precipitación (mm)'],
+        bins=[-np.inf, 0.01, 5, 15, 30, np.inf],
+        labels=['Sin lluvia', 'Lluvia ligera', 'Lluvia moderada', 'Lluvia fuerte', 'Lluvia muy fuerte'])
+    
+    # Temperatura vs Radiación
+    tabla1 = pd.crosstab(datos['Categoría Temperatura'], datos['Categoría Radiación'])
+    st.subheader('Temperatura vs Radiación')
+    st.dataframe(tabla1)
+    stat1, p1, _, _ = stats.chi2_contingency(tabla1)
+    st.write(f"Valor p: {p1:.4f}")
+    if p1 < 0.05:
+        st.success("Existe una relación significativa entre la temperatura y la radiación.")
+    else:
+        st.info("No se encontró relación significativa entre la temperatura y la radiación.")
+
+    # Temperatura vs Viento
+    tabla2 = pd.crosstab(datos['Categoría Temperatura'], datos['Categoría Viento'])
+    st.subheader('Temperatura vs Viento')
+    st.dataframe(tabla2)
+    stat2, p2, _, _ = stats.chi2_contingency(tabla2)
+    st.write(f"Valor p: {p2:.4f}")
+    if p2 < 0.05:
+        st.success("Existe una relación significativa entre la temperatura y el viento.")
+    else:
+        st.info("No se encontró relación significativa entre la temperatura y el viento.")
+
+    # Humedad vs Precipitación
+    tabla3 = pd.crosstab(datos['Categoría Humedad'], datos['Categoría Precipitación'])
+    st.subheader('Humedad vs Precipitación')
+    st.dataframe(tabla3)
+    stat3, p3, _, _ = stats.chi2_contingency(tabla3)
+    st.write(f"Valor p: {p3:.4f}")
+    if p3 < 0.05:
+        st.success("Existe una relación significativa entre la humedad y la precipitación.")
+    else:
+        st.info("No se encontró relación significativa entre la humedad y la precipitación.")
+
+    # Humedad vs Radiación
+    tabla4 = pd.crosstab(datos['Categoría Humedad'], datos['Categoría Radiación'])
+    st.subheader('Humedad vs Radiación')
+    st.dataframe(tabla4)
+    stat4, p4, _, _ = stats.chi2_contingency(tabla4)
+    st.write(f"Valor p: {p4:.4f}")
+    if p4 < 0.05:
+        st.success("Existe una relación significativa entre la humedad y la radiación.")
+    else:
+        st.info("No se encontró relación significativa entre la humedad y la radiación.")
+
+    # Viento vs Precipitación
+    tabla5 = pd.crosstab(datos['Categoría Viento'], datos['Categoría Precipitación'])
+    st.subheader('Viento vs Precipitación')
+    st.dataframe(tabla5)
+    stat5, p5, _, _ = stats.chi2_contingency(tabla5)
+    st.write(f"Valor p: {p5:.4f}")
+    if p5 < 0.05:
+        st.success("Existe una relación significativa entre el viento y la precipitación.")
+    else:
+        st.info("No se encontró relación significativa entre el viento y la precipitación.")
+
+
     
 elif menu_opcion == 'Preguntas de investigación':
     st.header('Preguntas de investigación')
