@@ -36,6 +36,12 @@ def variables_clima():
                                     'Radiación solar total en la superficie (kWh/m²/día)'])
     return seleccion
 
+apoyo = {'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
+         'Humedad relativa promedio a 2 metros (%)': 'Humedad relativa (%)',
+         'Velocidad del viento a 2 metros (m/s)': 'Viento (m/s)',
+         'Precipitación total corregida (mm/día)': 'Precipitación (mm)',
+         'Radiación solar total en la superficie (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'}
+
 
 menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 'Anomalías climáticas'], 
     icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'exclamation-triangle'], 
@@ -150,13 +156,6 @@ elif menu_opcion == 'Comparación de rangos temporales':
             if mes1 != None and mes2 != None and Año1 != None and Año2 != None and opcion != 'Seleccione la variable a visualizar' and not(mes1 != mes2 and Año1 == Año2):
                 datos_filtrados1 = datos[(datos['Fecha del registro'].dt.year == Año1) & (datos['Fecha del registro'].dt.month ==arr_m.index(mes1) + 1)]
                 datos_filtrados2 = datos[(datos['Fecha del registro'].dt.year == Año2) & (datos['Fecha del registro'].dt.month ==arr_m.index(mes2) + 1)]
-                apoyo = {
-                    'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
-                    'Humedad relativa promedio a 2 metros (%)': 'Humedad relativa (%)',
-                    'Velocidad del viento a 2 metros (m/s)': 'Viento (m/s)',
-                    'Precipitación total corregida (mm/día)': 'Precipitación (mm)',
-                    'Radiación solar total en la superficie (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'
-                }
                 columna = apoyo.get(opcion)
                 promedio1 = datos_filtrados1[columna].mean()
                 promedio2 = datos_filtrados2[columna].mean() 
@@ -172,18 +171,32 @@ elif menu_opcion == 'Comparación de rangos temporales':
             else:
                 st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
-
-
         elif metodo == 'De un año':
             Año = st.segmented_control('Seleccione el año:', datos['Fecha del registro'].dt.year.unique(), key='año')
             if Año == 2025:
                 arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo']
             else:
                 arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-            meses = st.segmented_control('Seleccione el mes:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+            meses = st.segmented_control('Seleccione el/los mes/es:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
                                                             selection_mode='multi', key='meses')
-
-
+            if Año != None and meses != None and opcion != 'Seleccione la variable a visualizar':
+                promedios = []
+                meses_seleccionados = [arr_m.index(mes) + 1 for mes in meses]
+                for mes in meses_seleccionados:
+                    datos_filtrados = datos[(datos['Fecha del registro'].dt.year == Año) & (datos['Fecha del registro'].dt.month == mes)]
+                    columna = apoyo.get(opcion)
+                    promedio = datos_filtrados[columna].mean()
+                    promedios.append(promedio)
+            
+            fig = px.bar(
+                x=meses,
+                y=promedios,
+                title=f'Promedio Mensual de {opcion} en {Año}',
+                labels={'x': 'Mes', 'y': f'Promedio de {opcion}'},
+                color=meses
+            )
+            fig.update_traces(showlegend=False)
+            st.plotly_chart(fig)
 
     elif rangos == 'Anual':
         st.write('Seleccione el rango de fechas para calcular los promedios anuales.')
