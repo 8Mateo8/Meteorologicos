@@ -148,9 +148,8 @@ elif menu_opcion == 'Comparación de rangos temporales':
             mes2 = st.segmented_control('Seleccione el mes 2:', arr_m, selection_mode='single', key='mes2')
 
             if mes1 != None and mes2 != None and Año1 != None and Año2 != None and opcion != 'Seleccione la variable a visualizar' and not(mes1 != mes2 and Año1 == Año2):
-                datos_filtrados = datos[(datos['Fecha del registro'].dt.year.isin([Año1, Año2])) &
-                                        (datos['Fecha del registro'].dt.month.isin([arr_m.index(mes1) + 1, arr_m.index(mes2) + 1]))]
-                datos_filtrados['Mes'] = datos_filtrados['Fecha del registro'].dt.month_name()
+                datos_filtrados1 = datos[(datos['Fecha del registro'].dt.year == Año1) & (datos['Fecha del registro'].dt.month ==arr_m.index(mes1) + 1)]
+                datos_filtrados2 = datos[(datos['Fecha del registro'].dt.year == Año2) & (datos['Fecha del registro'].dt.month ==arr_m.index(mes2) + 1)]
                 # Map user-friendly variable names to DataFrame column names
                 variable_map = {
                     'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
@@ -160,13 +159,11 @@ elif menu_opcion == 'Comparación de rangos temporales':
                     'Radiación solar total en la superficie (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'
                 }
                 columna = variable_map.get(opcion)
-                promedios_mensuales = datos_filtrados.groupby(['Mes', 'Fecha del registro']).mean(numeric_only=True).reset_index()
-                if columna in promedios_mensuales.columns:
-                    fig = px.bar(promedios_mensuales, x='Mes', y=columna,
-                        title=f'Promedio Mensual de {opcion} para {mes1} de {Año1} y {mes2} de {Año2}')
-                    st.plotly_chart(fig)
-                else:
-                    st.warning('No se encontró la columna correspondiente para la variable seleccionada.')
+                promedio1 = datos_filtrados1[columna].mean()
+                promedio2 = datos_filtrados2[columna].mean() 
+                fig = px.bar(x=[mes1, mes2], y=[promedio1, promedio2],
+                    title=f'Promedio Mensual de {opcion} para {mes1} de {Año1} y {mes2} de {Año2}')
+                st.plotly_chart(fig)
             else:
                 st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
