@@ -238,34 +238,46 @@ elif menu_opcion == 'Comparación de rangos temporales':
 
             # Mostrar la prueba de normalidad
             mostrar = st.toggle('Pruebas estadísticas', key='pruebas_estadisticas')
-            if mostrar:
+            grupos = [datos[(datos['Fecha del registro'].dt.year == Año) & 
+                                    (datos['Fecha del registro'].dt.month == mes)][columna].dropna()
+                              for mes in meses_seleccionados]
+            if mostrar and len(grupos) > 1:
                 if normal:
                     st.write('Los datos siguen una distribución normal.')
-                    
-                    # Realizar la prueba ANOVA
-                    st.write('Resultados de la prueba ANOVA:')
-                    grupos = [datos[(datos['Fecha del registro'].dt.year == Año) & 
-                                    (datos['Fecha del registro'].dt.month == mes)][columna].dropna()
-                              for mes in meses_seleccionados]
-                    f_stat, p_value = stats.f_oneway(*grupos)
-                    st.write(f"Estadístico F: {f_stat}, p: {p_value}")
-                    if p_value < 0.05:
-                        st.success("Hay diferencias significativas entre los promedios mensuales.")
+
+                    if len(grupos) < 3:
+                        # Realizar la prueba t
+                        st.write('Resultados de la prueba t de Student:')
+                        t_stat, p_value = stats.ttest_ind(*grupos)
+                        st.write(f"Estadístico t: {t_stat}, p: {p_value}")
+                        
                     else:
-                        st.warning("No hay diferencias significativas entre los promedios mensuales.")
+                        # Realizar la prueba ANOVA
+                        st.write('Resultados de la prueba ANOVA:')
+                        f_stat, p_value = stats.f_oneway(*grupos)
+                        st.write(f"Estadístico F: {f_stat}, p: {p_value}")
+                    if p_value < 0.05:
+                        st.write("Hay diferencias significativas entre los promedios mensuales.")
+                    else:
+                        st.write("No hay diferencias significativas entre los promedios mensuales.")
                 else:
                     st.write('Los datos no siguen una distribución normal.')
-                    # Realizar la prueba Kruskal-Wallis
-                    st.write('Resultados de la prueba Kruskal-Wallis:')
-                    grupos = [datos[(datos['Fecha del registro'].dt.year == Año) & 
-                                    (datos['Fecha del registro'].dt.month == mes)][columna].dropna()
-                              for mes in meses_seleccionados]
-                    h_stat, p_value = stats.kruskal(*grupos)
-                    st.write(f"Estadístico H: {h_stat}, p: {p_value}")
-                    if p_value < 0.05:
-                        st.success("Hay diferencias significativas entre los promedios mensuales.")
+
+                    if len(grupos) < 3:
+                        # Realizar la prueba U de Mann-Whitney
+                        st.write('Resultados de la prueba U de Mann-Whitney:')
+                        u_stat, p_value = stats.mannwhitneyu(*grupos)
+                        st.write(f"Estadístico U: {u_stat}, p: {p_value}")
+        
                     else:
-                        st.warning("No hay diferencias significativas entre los promedios mensuales.")
+                        # Realizar la prueba Kruskal-Wallis
+                        st.write('Resultados de la prueba Kruskal-Wallis:')
+                        h_stat, p_value = stats.kruskal(*grupos)
+                        st.write(f"Estadístico H: {h_stat}, p: {p_value}")
+                    if p_value < 0.05:
+                        st.write("Hay diferencias significativas entre los promedios mensuales.")
+                    else:
+                        st.write("No hay diferencias significativas entre los promedios mensuales.")
 
         else:
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
