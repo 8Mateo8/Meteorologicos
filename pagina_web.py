@@ -175,7 +175,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
         Años = st.segmented_control('Seleccione los años:', arr_a, 
                                     selection_mode='multi', key='años')
 
-        if Años != None and opcion != None:
+        if Años and opcion is not None:  # Años no vacío y opción válida
             años_seleccionados = [int(año) for año in Años]
             promedios_anuales = []
             for año in años_seleccionados:
@@ -197,11 +197,11 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 labels={'Año': 'Año', 'Promedio': 'Promedio anual'},
                 color='Año'
             )
-            fig.update_layout(xaxis_type='category')  # Fuerza el eje X como categórico
+            fig.update_layout(xaxis_type='category')
             fig.update_traces(showlegend=False)
 
             st.plotly_chart(fig)
-
+            
         else:
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
