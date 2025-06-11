@@ -522,13 +522,11 @@ elif menu_opcion == 'Anomalías climáticas':
 
 elif menu_opcion == 'Gráficos':
     st.header('Gráficos de las variables climáticas')
-    
-    datosn = datos.select_dtypes('number')
 
     st.subheader('Correlación entre las variables numéricas')
     # Mapa de calor de correlación
     fig = px.imshow(
-    datosn.corr(method='kendall'),
+    datos.select_dtypes('number').corr(),
     text_auto=True,
     color_continuous_scale='Blues',
     zmin=-1,
