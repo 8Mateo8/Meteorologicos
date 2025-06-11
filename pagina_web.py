@@ -366,13 +366,42 @@ elif menu_opcion == 'Comparación de rangos temporales':
         else:
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
-
 elif menu_opcion == 'Anomalías climáticas':
     st.header('Identificación de anomalías climáticas ')
     anomalia = variables_clima()
 
     if anomalia == 'Temperatura promedio diaria del aire a 2 metros (°C)':
-        pass
+        columna = apoyo.get('anomalia')
+        st.subheader(f"Análisis de anomalías en {columna}")
+
+        # Calcular IQR
+        q1 = datos[columna].quantile(0.25)
+        q3 = datos[columna].quantile(0.75)
+        iqr = q3 - q1
+        lim_inf = q1 - 1.5 * iqr
+        lim_sup = q3 + 1.5 * iqr
+
+        # Detectar valores fuera del rango (anomalías)
+        datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
+        datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
+
+        # Mostrar resultados
+        st.write(f"Valores normales: {len(datos_filtrados)} | Anómalos: {len(datos_anomalías)}")
+        st.write(f"Rango aceptado: [{lim_inf:.2f}, {lim_sup:.2f}]")
+
+        # Prueba de normalidad en los valores filtrados
+        stat, p_shapiro = stats.shapiro(datos_filtrados[columna].dropna())
+        st.write(f"Prueba de Shapiro-Wilk para valores filtrados: p-valor = {p_shapiro:.4f}")
+        if p_shapiro > 0.05:
+            st.success("Los valores filtrados siguen una distribución normal.")
+        else:
+            st.warning("Los valores filtrados NO siguen una distribución normal.")
+
+        # Gráfico de dispersión con anomalías resaltadas
+        fig = px.scatter(datos, x="Fecha del registro", y=columna, title=f'{columna} con anomalías (IQR)')
+        fig.add_scatter(x=datos_anomalías["Fecha del registro"], y=datos_anomalías[columna],
+                        mode='markers', marker=dict(color='red', size=6), name="Anomalías")
+        st.plotly_chart(fig)
     elif anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
         pass
     elif anomalia == 'Velocidad del viento a 2 metros (m/s)':
