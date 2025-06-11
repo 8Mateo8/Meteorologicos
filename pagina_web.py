@@ -534,6 +534,9 @@ elif menu_opcion == 'Gráficos':
     title="Mapa de calor de correlacion"
     )
     st.plotly_chart(fig)
+
+    fig_scatter = px.scatter_matrix(datos.select_dtypes('number'), title="Correlaciones entre variables")
+    st.plotly_chart(fig_scatter)
     
 elif menu_opcion == 'Preguntas de investigación':
     st.header('Preguntas de investigación')
