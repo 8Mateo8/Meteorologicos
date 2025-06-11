@@ -3,6 +3,8 @@ import pandas as pd
 import plotly.express as px
 import data
 from streamlit_option_menu import option_menu
+import numpy as np
+from scipy import stats
 
 # Leer el CSV
 datos = data.importar_datos()
@@ -47,8 +49,9 @@ apoyo = {'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
          'Radiación solar total en la superficie (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'}
 
 
-menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 'Anomalías climáticas'], 
-    icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'exclamation-triangle'], 
+menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 
+                                 'Anomalías climáticas', 'Preguntas de investigación'], 
+    icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'tropical-storm', 'stars'], 
     menu_icon="house-door-fill", default_index=0, orientation="horizontal")
 
 if menu_opcion == 'Inicio':
@@ -218,3 +221,21 @@ elif menu_opcion == 'Anomalías climáticas':
         pass
     elif anomalia == 'Radiación solar total en la superficie (kWh/m²/día)':
         pass
+elif menu_opcion == 'Preguntas de investigación':
+    st.header('Preguntas de investigación')
+    st.markdown('''
+    1. **¿Cómo ha cambiado la temperatura promedio en Cuenca a lo largo del tiempo?**
+       - Esta pregunta busca identificar tendencias en la temperatura promedio diaria a lo largo de los años.
+    
+    2. **¿Cuál es la variación estacional de la humedad relativa en Cuenca?**
+       - Se pretende analizar cómo varía la humedad relativa promedio a lo largo de los meses del año.
+    
+    3. **¿Cómo afecta la velocidad del viento a las precipitaciones en Cuenca?**
+       - Esta pregunta investiga la relación entre la velocidad del viento y las precipitaciones diarias.
+    
+    4. **¿Qué patrones se pueden observar en la radiación solar a lo largo del año?**
+       - Se busca identificar patrones estacionales en la radiación solar total en la superficie.
+    
+    5. **¿Existen anomalías climáticas significativas en los últimos años?**
+       - Esta pregunta se centra en detectar anomalías climáticas, como eventos extremos o cambios inusuales en las variables meteorológicas.
+    ''')
