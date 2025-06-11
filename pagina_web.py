@@ -112,7 +112,7 @@ elif menu_opcion == 'Tendencias climáticas':
         arreglo = fechas("temperatura")
         grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
 
-        fig = px.timeline(
+        fig = px.line(
             grafico,
             x='Fecha del registro',
             y='Temperatura (°C)',
