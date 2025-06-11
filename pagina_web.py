@@ -395,9 +395,8 @@ elif menu_opcion == 'Anomalías climáticas':
                         mode='markers', marker=dict(color='blue', size=2))
         st.plotly_chart(fig)
 
-        # Agregar una tabla con las anomalías
-        st.markdown('Tabla de anomalías')
-        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True))
+        st.subheader("Tabla de anomalías detectadas")
+        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
 
     elif anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
         pass
