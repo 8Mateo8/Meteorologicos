@@ -416,7 +416,7 @@ elif menu_opcion == 'Anomalías climáticas':
         datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
 
         # Mostrar advertencia si no se detectan anomalías
-        if datos_anomalías.empty:
+        if datos_anomalías.rowcount == 0:
             st.warning('No se detectaron anomalías en los datos seleccionados.')
         else:
             # Mostrar las anomalías detectadas
