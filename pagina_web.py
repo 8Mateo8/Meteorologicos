@@ -78,8 +78,8 @@ def Shapiro(data, mes, año):
 
 # Configuración del menú de la página
 menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 
-                                 'Anomalías climáticas', 'Preguntas de investigación'], 
-    icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'tropical-storm', 'stars'], 
+                                 'Anomalías climáticas', 'Gráficos', 'Preguntas de investigación'], 
+    icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'tropical-storm', 'graph-up', 'stars'], 
     menu_icon="house-door-fill", default_index=0, orientation="horizontal")
 
 if menu_opcion == 'Inicio':
@@ -112,7 +112,7 @@ elif menu_opcion == 'Tendencias climáticas':
         arreglo = fechas("temperatura")
         grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
 
-        fig = px.line(
+        fig = px.timeline(
             grafico,
             x='Fecha del registro',
             y='Temperatura (°C)',
@@ -520,6 +520,11 @@ elif menu_opcion == 'Anomalías climáticas':
                             mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
             st.plotly_chart(fig)        
 
+elif menu_opcion == 'Gráficos':
+    st.header('Gráficos de las variables climáticas')
+    
+    
+    
 elif menu_opcion == 'Preguntas de investigación':
     st.header('Preguntas de investigación')
     st.markdown('''
