@@ -149,7 +149,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
             arr_m = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
         meses = st.segmented_control('Seleccione el/los mes/es:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
                                                         selection_mode='multi', key='meses')
-        if Año != None and meses != None and opcion != None:
+        if Año != None and meses != [] and opcion != None:
             promedios = []
             meses_seleccionados = [arr_m.index(mes) + 1 for mes in meses]
             for mes in meses_seleccionados:
