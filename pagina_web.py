@@ -416,10 +416,9 @@ elif menu_opcion == 'Anomalías climáticas':
         datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
 
         # Mostrar advertencia si no se detectan anomalías
-        if datos_anomalías.rowcount == 0:
+        if datos_anomalías.empty:
             st.warning('No se detectaron anomalías en los datos seleccionados.')
         else:
-            # Mostrar las anomalías detectadas
             st.markdown('<div style="text-align: center;">Anomalías detectadas</div>', unsafe_allow_html=True)
             st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
 
@@ -429,6 +428,7 @@ elif menu_opcion == 'Anomalías climáticas':
             fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
                             mode='markers', marker=dict(color='blue', size=3), name='Datos normales')
             st.plotly_chart(fig)
+
 
     elif anomalia == 'Velocidad del viento a 2 metros (m/s)':
         columna = apoyo.get(anomalia)
