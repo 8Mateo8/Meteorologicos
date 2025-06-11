@@ -29,8 +29,8 @@ def fechas(etiqueta=""):
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
 
 def variables_clima():
-    seleccion = st.selectbox('',['Seleccione la variable a visualizar', 'Temperatura promedio diaria del aire a 2 metros (°C)', 
-                                    'Humedad relativa promedio diaria a 2 metros (%)', 
+    seleccion = st.selectbox('',['Seleccione la variable a visualizar', 'Temperatura promedio del aire a 2 metros (°C)', 
+                                    'Humedad relativa promedio a 2 metros (%)', 
                                     'Velocidad del viento a 2 metros (m/s)',
                                     'Precipitación total corregida (mm/día)', 
                                     'Radiación solar total en la superficie (kWh/m²/día)'])
@@ -56,7 +56,7 @@ elif menu_opcion == 'Tendencias climáticas':
     st.header('Visualización de tendencias climáticas a lo largo del tiempo.')
     variable = variables_clima()
 
-    if variable == 'Temperatura promedio diaria del aire a 2 metros (°C)':
+    if variable == 'Temperatura promedio del aire a 2 metros (°C)':
         arreglo = fechas("temperatura")
         grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
 
@@ -70,7 +70,7 @@ elif menu_opcion == 'Tendencias climáticas':
         fig.update_layout(xaxis_title='Fecha', yaxis_title='Temperatura (°C)')
         st.plotly_chart(fig)
 
-    elif variable == 'Humedad relativa promedio diaria a 2 metros (%)':
+    elif variable == 'Humedad relativa promedio a 2 metros (%)':
         arreglo = fechas("humedad")
         grafico = datos[(datos['Fecha del registro'] >= arreglo[0]) & (datos['Fecha del registro'] <= arreglo[1])]
 
@@ -120,7 +120,7 @@ elif menu_opcion == 'Tendencias climáticas':
             grafico,
             x='Fecha del registro',
             y='Radiación solar (kWh/m²/día)',
-            title='Radiación Solar Diaria promedio',
+            title='Radiación Solar Diaria Promedio',
             labels={'Fecha del registro': 'Fecha', 'Radiación solar (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'}
         )
         fig.update_layout(xaxis_title='Fecha', yaxis_title='Radiación solar (kWh/m²/día)')
@@ -132,15 +132,27 @@ elif menu_opcion == 'Comparación de rangos temporales':
     opcion = variables_clima()
 
     if rangos == 'Mensual':
-        st.write('Seleccione el rango de fechas para calcular los promedios mensuales.')
-        rango_fechas = fechas("promedios_mensuales")
-        datos_mensuales = datos[(datos['Fecha del registro'] >= rango_fechas[0]) & (datos['Fecha del registro'] <= rango_fechas[1])]
-        datos_mensuales['Mes'] = datos_mensuales['Fecha del registro'].dt.to_period('M').astype(str)
-        promedios_mensuales = datos_mensuales.groupby('Mes').mean().reset_index()
+        metodo = st.segmented_control(None, ['De un año', 'De varios años'])
+        if metodo == 'De varios años':
+            Año1 = st.segmented_control('Seleccione el año 1:', datos['Fecha del registro'].dt.year.unique())
+            mes1 = st.segmented_control('Seleccione el mes 1:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
+                                                            'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+                                                            selection_mode='single', key='mes1')
+            Año2 = st.segmented_control('Seleccione el año 2:', datos['Fecha del registro'].dt.year.unique())
+            mes2 = st.segmented_control('Seleccione el mes 2:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
+                                                            'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+                                                            selection_mode='single', key='mes2')
 
-        # st.write(promedios_mensuales)
-        fig = px.bar(promedios_mensuales, x='Mes', y='Temperatura (°C)', title='Promedio Mensual de Temperatura')
-        st.plotly_chart(fig)
+            st.write(f"Comparando {opcion} de {mes1} de {Año1} y {mes2} de {Año2}")
+
+            
+        elif metodo == 'De un año':
+            Año = st.segmented_control('Seleccione el año:', datos['Fecha del registro'].dt.year.unique())
+            meses = st.segmented_control('Seleccione el mes:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
+                                                            'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+                                                            selection_mode='multiple', key='meses_seleccionados')
+
+
 
     elif rangos == 'Anual':
         st.write('Seleccione el rango de fechas para calcular los promedios anuales.')
