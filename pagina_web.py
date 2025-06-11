@@ -171,7 +171,7 @@ elif menu_opcion == 'Comparación de rangos temporales':
         Años = st.segmented_control('Seleccione los años:', arr_a, 
                                     selection_mode='multi', key='años')
 
-        if Años is not None and opcion is not None:
+        if Años != None and opcion != None:
             años_seleccionados = [int(año) for año in Años]
             promedios_anuales = []
             for año in años_seleccionados:
