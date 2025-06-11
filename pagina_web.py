@@ -30,6 +30,7 @@ def fechas(etiqueta=""):
 
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
 
+# Función para seleccionar la variable climática a visualizar
 def variables_clima():
     seleccion = st.selectbox('Seleccione la variable a visualizar:', ['Seleccione una opción',  
                                                                       'Temperatura promedio del aire a 2 metros (°C)',
@@ -42,13 +43,14 @@ def variables_clima():
     else:
         return seleccion
 
+# Diccionario de apoyo para las variables climáticas
 apoyo = {'Temperatura promedio del aire a 2 metros (°C)': 'Temperatura (°C)',
          'Humedad relativa promedio a 2 metros (%)': 'Humedad relativa (%)',
          'Velocidad del viento a 2 metros (m/s)': 'Viento (m/s)',
          'Precipitación total corregida (mm/día)': 'Precipitación (mm)',
          'Radiación solar total en la superficie (kWh/m²/día)': 'Radiación solar (kWh/m²/día)'}
 
-
+# Configuración del menú de la página
 menu_opcion = option_menu(None, ["Inicio", 'Tendencias climáticas', 'Comparación de rangos temporales', 
                                  'Anomalías climáticas', 'Preguntas de investigación'], 
     icons=['brightness-alt-high', 'thermometer-sun', 'calendar-range', 'tropical-storm', 'stars'], 
@@ -58,9 +60,17 @@ if menu_opcion == 'Inicio':
     # Título de la página web
     st.title('Datos Meteorológicos en Cuenca - Ecuador')
 
+    st.subheader('Mateo Calderón - Lisseth Guazhambo')
+
     # Descripción de la página
-    st.markdown('<div style="text-align: justify;">En esta página web se presentan los datos meteorológicos de la ciudad de Cuenca, obtenidos a partir de la base de datos del proyecto POWER (Prediction Of Worldwide Energy Resources) de la NASA. Este conjunto de datos incluye información meteorológica histórica y actualizada, recopilada mediante sensores satelitales.</div>', unsafe_allow_html=True)
-    st.write('Los datos están disponibles desde el 1 de enero del 2020 hasta el 31 de mayo del 2025.')
+    st.markdown('<div style="text-align: justify;">En esta página web se presentan los datos meteorológicos ' \
+    'de la ciudad de Cuenca, obtenidos a partir de la base de datos del proyecto POWER (Prediction Of ' \
+    'Worldwide Energy Resources) de la NASA. Este conjunto de datos incluye información meteorológica ' \
+    'histórica y actualizada, recopilada mediante sensores satelitales.</div>', unsafe_allow_html=True)
+    st.markdown('<div style="text-align: justify;">Además se realizó un análisis de los datos en' \
+    ' base a gráficas y pruebas estadísticas para responder a las preguntas de investigación</div>', unsafe_allow_html=True)
+    st.markdown('<div style="text-align: justify;">Se usaron los datos disponibles desde el 1 de enero del 2020 ' \
+    'hasta el 31 de mayo del 2025.</div>', unsafe_allow_html=True)
 
     st.image('cathedral-of-cuenca-4021077_1920.jpg', width=None, caption='Catedral de Cuenca, Ecuador', use_container_width=True)
 
