@@ -220,9 +220,6 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 columna = apoyo.get(opcion)
                 promedio = datos_filtrados[columna].mean()
                 promedios.append(promedio)
-
-                # Realizar la prueba de normalidad
-                normal = normal and Shapiro(datos_filtrados[columna], arr_m[mes - 1], Año)
         
             # Crear un gráfico de barras con los promedios mensuales
             fig = px.bar(
@@ -234,6 +231,15 @@ elif menu_opcion == 'Comparación de rangos temporales':
             )
             fig.update_traces(showlegend=False)
             st.plotly_chart(fig)
+
+            # Realizar la prueba de normalidad
+            st.write('Prueba de normalidad de Shapiro-Wilk:')
+            for mes in meses_seleccionados:
+                datos_filtrados = datos[(datos['Fecha del registro'].dt.year == Año) & (datos['Fecha del registro'].dt.month == mes)]
+                columna = apoyo.get(opcion)
+                promedio = datos_filtrados[columna].mean()
+                
+                normal = normal and Shapiro(datos_filtrados[columna], arr_m[mes - 1], Año)
         else:
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
         
