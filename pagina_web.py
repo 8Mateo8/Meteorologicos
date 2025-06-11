@@ -135,12 +135,10 @@ elif menu_opcion == 'Comparación de rangos temporales':
         metodo = st.segmented_control(None, ['De un año', 'De varios años'])
         if metodo == 'De varios años':
             Año1 = st.segmented_control('Seleccione el año 1:', datos['Fecha del registro'].dt.year.unique(), key='año1')
-            mes1 = st.segmented_control('Seleccione el mes 1:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
-                                                            'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+            mes1 = st.segmented_control('Seleccione el mes 1:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
                                                             selection_mode='single', key='mes1')
             Año2 = st.segmented_control('Seleccione el año 2:', datos['Fecha del registro'].dt.year.unique(), key='año2')
-            mes2 = st.segmented_control('Seleccione el mes 2:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
-                                                            'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+            mes2 = st.segmented_control('Seleccione el mes 2:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
                                                             selection_mode='single', key='mes2')
 
             st.write(f"Comparando {opcion} de {mes1} de {Año1} y {mes2} de {Año2}")
@@ -148,9 +146,8 @@ elif menu_opcion == 'Comparación de rangos temporales':
 
         elif metodo == 'De un año':
             Año = st.segmented_control('Seleccione el año:', datos['Fecha del registro'].dt.year.unique(), key='año')
-            meses = st.segmented_control('Seleccione el mes:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
-                                                            'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
-                                                            selection_mode='multiple', key='meses_seleccionados')
+            meses = st.segmented_control('Seleccione el mes:', ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+                                                            selection_mode='multiple', key='meses')
 
 
 
