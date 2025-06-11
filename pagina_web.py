@@ -385,18 +385,17 @@ elif menu_opcion == 'Anomalías climáticas':
         datos_filtrados = datos[(datos[columna] >= lim_inf) & (datos[columna] <= lim_sup)]
         datos_anomalías = datos[(datos[columna] < lim_inf) | (datos[columna] > lim_sup)]
 
-        # Mostrar resultados
-        st.write(f"Valores normales: {len(datos_filtrados)} | Anómalos: {len(datos_anomalías)}")
-        st.write(f"Rango aceptado: [{lim_inf:.2f}, {lim_sup:.2f}]")
+        st.subheader("Tabla de anomalías detectadas")
+        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
 
         # Gráfico de dispersión con anomalías resaltadas
-        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', color_discrete_sequence=['red'])
+        fig = px.scatter(datos_anomalías, x="Fecha del registro", y=columna, title=f'Anomalías de {columna}', 
+                         color_discrete_sequence=['red'])
         fig.add_scatter(x=datos_filtrados["Fecha del registro"], y=datos_filtrados[columna],
                         mode='markers', marker=dict(color='blue', size=2))
         st.plotly_chart(fig)
 
-        st.subheader("Tabla de anomalías detectadas")
-        st.dataframe(datos_anomalías[['Fecha del registro', columna]].reset_index(drop=True), use_container_width=True)
+        
 
     elif anomalia == 'Humedad relativa promedio diaria a 2 metros (%)':
         pass
