@@ -370,7 +370,7 @@ elif menu_opcion == 'Anomalías climáticas':
     st.header('Identificación de anomalías climáticas ')
     anomalia = variables_clima()
 
-    if anomalia == 'Temperatura promedio diaria del aire a 2 metros (°C)':
+    if anomalia == 'Temperatura promedio del aire a 2 metros (°C)':
         columna = apoyo.get(anomalia)
         st.subheader(f"Análisis de anomalías en {columna}")
 
