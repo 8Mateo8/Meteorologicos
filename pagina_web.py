@@ -170,9 +170,9 @@ elif menu_opcion == 'Comparación de rangos temporales':
         arr_a = ['2020', '2021', '2022', '2023', '2024', '2025']
         Años = st.segmented_control('Seleccione los años:', arr_a, 
                                     selection_mode='multi', key='años')
-        
-        if Años != None and opcion != None:
-            años_seleccionados = [arr_a.index(año) + 2020 for año in Años]
+
+        if Años is not None and opcion is not None:
+            años_seleccionados = [int(año) for año in Años]
             promedios_anuales = []
             for año in años_seleccionados:
                 datos_filtrados = datos[datos['Fecha del registro'].dt.year == año]
@@ -180,17 +180,24 @@ elif menu_opcion == 'Comparación de rangos temporales':
                 promedio_anual = datos_filtrados[columna].mean()
                 promedios_anuales.append(promedio_anual)
 
-            df_promedios = pd.DataFrame({'Año': Años, 'Promedio': promedios_anuales})
+            df_promedios = pd.DataFrame({
+                'Año': [str(año) for año in años_seleccionados],
+                'Promedio': promedios_anuales
+            })
+
             fig = px.bar(
                 df_promedios,
-                x=Años.astype(str),
-                y=promedios_anuales,
+                x='Año',
+                y='Promedio',
                 title=f'Promedio Anual de {opcion}',
                 labels={'Año': 'Año', 'Promedio': 'Promedio anual'},
-                color=Años.astype(str)
+                color='Año'
             )
+            fig.update_layout(xaxis_type='category')  # Fuerza el eje X como categórico
             fig.update_traces(showlegend=False)
+
             st.plotly_chart(fig)
+
         else:
             st.warning('Por favor, seleccione todos los campos necesarios para generar el gráfico.')
 
