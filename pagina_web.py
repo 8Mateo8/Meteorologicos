@@ -621,26 +621,31 @@ elif menu_opcion == 'Preguntas de investigación':
     st.markdown('''
 <div style="text-align: justify;">
 
+
 1. <b>¿Existe alguna tendencia climática marcada en la ciudad de Cuenca?</b>  
-   En los últimos 5 años se ha tenido una tendencia ligeramente creciente de la temperatura, la cual es respaldada por la prueba de Kendall Tau. Lo que sugiere posibles efectos del cambio climático.
-   Asimismo, se puede observar una tendencia decreciente en la humedad. Sugiriendo que estas variables tienen alguna relación entre sí.
+   En los últimos cinco años se ha observado una tendencia ligeramente creciente en la temperatura, confirmada mediante la prueba de Kendall Tau. Esto sugiere posibles efectos del cambio climático local.  
+   De forma complementaria, se evidencia una tendencia decreciente en la humedad relativa, lo cual puede indicar una relación inversa entre ambas variables en ciertos periodos.
 
 2. <b>¿Los datos meteorológicos varían al compararlos con meses o años anteriores?</b>  
-   Sí, esto se puede apreciar al comparar la cantidad de lluvias de enero y agosto de 2024. Donde, al aplicar la prueba de Mann-Whitney se obtienen diferencias significativas entre los datos, indicando que los patrones de lluvias no se mantienen constantes a lo largo del tiempo.
-   Lo mismo sucede al analizar la radiación solar en los años 2020, 2021 y 2023. En los cuales se puede comprobar una diferencia significativa mediante la prueba de Kruskal-Wallis.
-   
+   Sí. Por ejemplo, al comparar la precipitación de enero y agosto de 2024, la prueba de Mann-Whitney muestra diferencias estadísticamente significativas, reflejando que los patrones de lluvia no se mantienen constantes.  
+   Del mismo modo, al analizar la radiación solar entre los años 2020, 2021 y 2023, la prueba de Kruskal-Wallis confirmó **variaciones significativas interanuales.
 
-3. <b>¿Existe una correlación entre la temperatura y la humedad?</b>  
-   Se confirmó que temperaturas más altas están asociadas con mayor radiación solar, mientras que la precipitación tiende a reducirla. Estas relaciones son esperadas y validan la consistencia interna del conjunto de datos.
+3. <b>¿Qué variables tienen alguna correlación con la temperatura?</b>  
+   La temperatura fue clasificada en categorías y relacionada con otras variables usando la prueba de chi-cuadrado. Se identificó una relación significativa con:  
+   - Radiación solar: mayor radiación tiende a aumentar la temperatura ambiente.  
+   - Velocidad del viento: vientos más fuertes pueden favorecer una sensación térmica más baja, aunque la relación es más sutil.
 
 4. <b>¿Hay otras variables que estén relacionadas entre sí?</b>  
-   Se encontraron asociaciones claras entre:
-   - Temperatura y radiación (altas temperaturas coinciden con alta radiación).
-   - Humedad y precipitación (niveles altos de humedad acompañan a lluvias fuertes).
-   - Viento y precipitación (los vientos más fuertes se relacionan con eventos de lluvia intensa).
+   Sí, se encontraron relaciones significativas entre variables categorizadas, tales como:  
+   - Humedad y precipitación: niveles altos de humedad se asocian con eventos de lluvia.  
+   - Viento y precipitación: vientos intensos se relacionan con lluvias más fuertes, posiblemente por tormentas.  
+   - Humedad y radiación: días con alta radiación suelen presentar niveles de humedad más bajos, por mayor evaporación.
 
 5. <b>¿Se ha dado alguna anomalía climática en los últimos 5 años?</b>  
-   Aunque no fueron frecuentes, se identificaron anomalías (valores atípicos) en temperatura, viento y radiación. Estos eventos extremos deben ser monitoreados para evaluar su frecuencia futura y posible impacto.
+   Sí. Se identificaron anomalías en todas las variables analizadas, como por ejemplo:  
+   - Durante 2023 hubo varios días con temperaturas inusualmente bajas, mientras que en 2024 se detectó un evento aislado de temperatura máxima extrema.  
+   - La radiación solar presentó valores inusualmente bajos hacia finales de 2024, coincidiendo con un aumento de las precipitaciones tras un periodo seco.  
+   - La velocidad del viento ha mostrado una disminución en los valores máximos registrados desde 2023, lo cual podría estar vinculado a cambios térmicos o estacionales.
 
 </div>
 ''', unsafe_allow_html=True)
