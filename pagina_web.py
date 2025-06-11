@@ -183,11 +183,11 @@ elif menu_opcion == 'Comparación de rangos temporales':
             df_promedios = pd.DataFrame({'Año': Años, 'Promedio': promedios_anuales})
             fig = px.bar(
                 df_promedios,
-                x=Años,
+                x=Años.astype(str),
                 y=promedios_anuales,
                 title=f'Promedio Anual de {opcion}',
                 labels={'Año': 'Año', 'Promedio': 'Promedio anual'},
-                color=Años
+                color=Años.astype(str)
             )
             fig.update_traces(showlegend=False)
             st.plotly_chart(fig)
