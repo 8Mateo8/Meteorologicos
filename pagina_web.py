@@ -1,3 +1,4 @@
+from matplotlib import colors
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -14,20 +15,16 @@ def fechas(etiqueta=""):
         value=pd.to_datetime('2020-01-01'),
         min_value=datos['Fecha del registro'].min(),
         max_value=datos['Fecha del registro'].max(),
-        key=f"{etiqueta}_fecha_inicio"
-    )
+        key=f"{etiqueta}_fecha_inicio")
 
     fecha_max = st.date_input(
         'Seleccione una fecha de fin',
         value=pd.to_datetime('2025-05-31'),
-        min_value=fecha_min,  # No permite seleccionar una fecha fin menor a la de inicio
+        min_value=fecha_min,
         max_value=datos['Fecha del registro'].max(),
-        key=f"{etiqueta}_fecha_fin"
-    )
+        key=f"{etiqueta}_fecha_fin")
 
-    # Opcional: advertencia si la fecha de inicio es mayor que la de fin
     if fecha_min > fecha_max:
-        st.warning("La fecha de inicio no puede ser mayor que la fecha de fin.")
         return [pd.to_datetime(fecha_max), pd.to_datetime(fecha_min)]
 
     return [pd.to_datetime(fecha_min), pd.to_datetime(fecha_max)]
@@ -69,7 +66,8 @@ elif menu_opcion == 'Tendencias climáticas':
             x='Fecha del registro',
             y='Temperatura (°C)',
             title='Temperatura Diaria Promedio',
-            labels={'Fecha del registro': 'Fecha', 'Temperatura (°C)': 'Temperatura (°C)'}
+            labels={'Fecha del registro': 'Fecha', 'Temperatura (°C)': 'Temperatura (°C)'},
+            color='Temperatura (°C)'
         )
         fig.update_layout(xaxis_title='Fecha', yaxis_title='Temperatura (°C)')
         st.plotly_chart(fig)
