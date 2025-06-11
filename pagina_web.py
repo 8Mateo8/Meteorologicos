@@ -65,8 +65,7 @@ elif menu_opcion == 'Tendencias climáticas':
             x='Fecha del registro',
             y='Temperatura (°C)',
             title='Temperatura Diaria Promedio',
-            labels={'Fecha del registro': 'Fecha', 'Temperatura (°C)': 'Temperatura (°C)'},
-            color='Temperatura (°C)'
+            labels={'Fecha del registro': 'Fecha', 'Temperatura (°C)': 'Temperatura (°C)'}
         )
         fig.update_layout(xaxis_title='Fecha', yaxis_title='Temperatura (°C)')
         st.plotly_chart(fig)
@@ -78,11 +77,11 @@ elif menu_opcion == 'Tendencias climáticas':
         fig = px.line(
             grafico,
             x='Fecha del registro',
-            y='Humedad (%)',
+            y='Humedad relativa (%)',
             title='Humedad Diaria Promedio',
-            labels={'Fecha del registro': 'Fecha', 'Humedad (%)': 'Humedad (%)'}
+            labels={'Fecha del registro': 'Fecha', 'Humedad relativa (%)': 'Humedad relativa (%)'}
         )
-        fig.update_layout(xaxis_title='Fecha', yaxis_title='Viento (m/s)')
+        fig.update_layout(xaxis_title='Fecha', yaxis_title='Humedad relativa (%)')
         st.plotly_chart(fig)
 
     elif variable == 'Velocidad del viento a 2 metros (m/s)':
