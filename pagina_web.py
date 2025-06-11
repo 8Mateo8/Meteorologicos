@@ -621,22 +621,25 @@ elif menu_opcion == 'Preguntas de investigación':
     st.markdown('''
 <div style="text-align: justify;">
 
-1. <b>Tendencia de aumento en la temperatura</b>  
-   Se identificó una tendencia ascendente en la temperatura promedio del aire, respaldada por la prueba de Kendall Tau. Este incremento es progresivo y sugiere posibles efectos del cambio climático local o procesos de urbanización.
+1. <b>¿Existe alguna tendencia climática marcada en la ciudad de Cuenca?</b>  
+   En los últimos 5 años se ha tenido una tendencia ligeramente creciente de la temperatura, la cual es respaldada por la prueba de Kendall Tau. Lo que sugiere posibles efectos del cambio climático.
+   Asimismo, se puede observar una tendencia decreciente en la humedad. Sugiriendo que estas variables tienen alguna relación entre sí.
 
-2. <b>Variabilidad significativa entre años</b>  
-   La comparación de promedios anuales y mensuales reveló diferencias significativas en variables como la radiación solar y la precipitación. Esto refleja años más secos o lluviosos, probablemente influenciados por fenómenos climáticos regionales.
+2. <b>¿Los datos meteorológicos varían al compararlos con meses o años anteriores?</b>  
+   Sí, esto se puede apreciar al comparar la cantidad de lluvias de enero y agosto de 2024. Donde, al aplicar la prueba de Mann-Whitney se obtienen diferencias significativas entre los datos, indicando que los patrones de lluvias no se mantienen constantes a lo largo del tiempo.
+   Lo mismo sucede al analizar la radiación solar en los años 2020, 2021 y 2023. En los cuales se puede comprobar una diferencia significativa mediante la prueba de Kruskal-Wallis.
+   
 
-3. <b>Correlaciones coherentes entre variables numéricas</b>  
+3. <b>¿Existe una correlación entre la temperatura y la humedad?</b>  
    Se confirmó que temperaturas más altas están asociadas con mayor radiación solar, mientras que la precipitación tiende a reducirla. Estas relaciones son esperadas y validan la consistencia interna del conjunto de datos.
 
-4. <b>Relación significativa entre variables categóricas</b>  
+4. <b>¿Hay otras variables que estén relacionadas entre sí?</b>  
    Se encontraron asociaciones claras entre:
    - Temperatura y radiación (altas temperaturas coinciden con alta radiación).
    - Humedad y precipitación (niveles altos de humedad acompañan a lluvias fuertes).
    - Viento y precipitación (los vientos más fuertes se relacionan con eventos de lluvia intensa).
 
-5. <b>Eventos meteorológicos extremos detectados</b>  
+5. <b>¿Se ha dado alguna anomalía climática en los últimos 5 años?</b>  
    Aunque no fueron frecuentes, se identificaron anomalías (valores atípicos) en temperatura, viento y radiación. Estos eventos extremos deben ser monitoreados para evaluar su frecuencia futura y posible impacto.
 
 </div>
